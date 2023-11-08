@@ -7,7 +7,8 @@ import {
     useLocation,
 } from "react-router-dom";
 import Login from "./pages/login/login";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/dashboard/dashboard";
+import Map from "./pages/map/map";
 import { checkLoggedIn } from "./utils/auth";
 
 function ProtectedRoute({ element }) {
@@ -16,7 +17,6 @@ function ProtectedRoute({ element }) {
 
     useEffect(() => {
         if (!checkLoggedIn()) {
-            console.log(location.pathname);
             // Redirect to the login page with the current location as a referrer
             navigate("/login", { state: { referrer: location.pathname } });
         }
@@ -32,6 +32,10 @@ function App() {
                 <Route
                     path="/"
                     element={<ProtectedRoute element={<Dashboard />} />}
+                />
+                <Route
+                    path="/map"
+                    element={<ProtectedRoute element={<Map />} />}
                 />
                 <Route path="/login" element={<Login />} />
             </Routes>

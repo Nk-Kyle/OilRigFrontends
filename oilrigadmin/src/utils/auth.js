@@ -8,8 +8,6 @@ function checkLoggedIn() {
     token = JSON.parse(atob(token.split(".")[1]));
     var exp = token.exp;
     var now = Date.now() / 1000;
-    console.log(exp);
-    console.log(now);
     if (now > exp) {
         localStorage.removeItem("token");
         return false;

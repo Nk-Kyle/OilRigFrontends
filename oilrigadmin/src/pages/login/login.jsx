@@ -25,7 +25,7 @@ function LoginPage() {
         e.preventDefault();
         // Fetch api POST request to login
 
-        fetch("http://localhost:5000/auth/login", {
+        fetch(process.env.REACT_APP_BACKEND + "/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
