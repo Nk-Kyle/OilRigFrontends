@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { MapContainer, Marker, ImageOverlay } from "react-leaflet";
-import { useMapEvents } from "react-leaflet";
+import { CrossCutModal } from "./overviewModal";
+import {
+    MapContainer,
+    Marker,
+    ImageOverlay,
+    Tooltip,
+    useMapEvents,
+} from "react-leaflet";
 import { marker } from "./marker";
-export const LeafletCanvas = ({ activeLevel, defaultIcon }) => {
-    const [markers, setMarkers] = useState([]);
+export const LeafletCanvas = ({ activeLevel, fetchLevels }) => {
+    const [crosscutShow, setCrosscutShow] = useState(false);
+    const [crosscutLatlng, setCrosscutLatlng] = useState({ lat: 0, lng: 0 });
+
     const [imageBounds, setImageBounds] = useState([
         [0, 0],
         [1, 1],
@@ -15,10 +23,12 @@ export const LeafletCanvas = ({ activeLevel, defaultIcon }) => {
             [img.naturalWidth / 36, img.naturalHeight / 9],
         ]);
     };
+
     const AddMarker = () => {
         useMapEvents({
             dblclick: (e) => {
-                setMarkers([...markers, e.latlng]);
+                setCrosscutLatlng(e.latlng);
+                setCrosscutShow(true);
             },
         });
         return null;
@@ -38,18 +48,37 @@ export const LeafletCanvas = ({ activeLevel, defaultIcon }) => {
                 style={{ height: "89vh", width: "100%" }}
             >
                 <AddMarker />
-                {markers.map((position, idx) => (
-                    <Marker
-                        key={`marker-${idx}`}
-                        position={position}
-                        icon={marker}
-                    />
-                ))}
+                {activeLevel &&
+                    activeLevel.locations.map((location, idx) => (
+                        <Marker
+                            key={`marker-${idx}`}
+                            position={[location.level_lat, location.level_lng]}
+                            icon={marker}
+                            eventHandlers={{
+                                mouseover: (e) => {
+                                    e.target.openPopup();
+                                },
+                                mouseout: (e) => {
+                                    e.target.closePopup();
+                                },
+                            }}
+                        >
+                            <Tooltip>{location.name}</Tooltip>
+                        </Marker>
+                    ))}
                 <ImageOverlay
                     url={activeLevel ? activeLevel.img_url : ""}
                     bounds={imageBounds}
                 />
             </MapContainer>
+            <CrossCutModal
+                show={crosscutShow}
+                handleClose={() => setCrosscutShow(false)}
+                levelId={activeLevel ? activeLevel.id : ""}
+                levelLatlng={crosscutLatlng}
+                LevelName={activeLevel ? activeLevel.name : ""}
+                fetchLevels={fetchLevels}
+            />
         </>
     );
 };

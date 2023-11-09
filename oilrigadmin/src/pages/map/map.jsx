@@ -89,7 +89,10 @@ function MapPage() {
                         <Row className="my-4">
                             {/* Image of selected level */}
                             <Col className="d-flex justify-content-center align-items-center">
-                                <LeafletCanvas activeLevel={activeLevel} />
+                                <LeafletCanvas
+                                    activeLevel={activeLevel}
+                                    fetchLevels={fetchLevels}
+                                />
                             </Col>
                         </Row>
                     </Col>
