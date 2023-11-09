@@ -1,6 +1,6 @@
 import { Icon } from "leaflet";
 
-export const defaultIcon = new Icon({
+export const marker = new Icon({
     iconUrl: "./marker-icon.png",
     iconSize: [25, 41], // size of the icon
     shadowSize: [41, 41], // size of the shadow
