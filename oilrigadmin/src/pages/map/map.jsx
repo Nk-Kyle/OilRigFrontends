@@ -4,16 +4,47 @@ import { LevelAccordion } from "../../components/levels";
 import { AddLevelOffCanvas } from "../../components/addLevelOffCanvas";
 import { EditLevelOffCanvas } from "../../components/editLevelOffCanvas";
 import { DeleteLevelOffCanvas } from "../../components/deleteLevelOffCanvas";
+import { defaultIcon } from "../../components/marker";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import {
+    MapContainer,
+    ImageOverlay,
+    Marker,
+    useMapEvents,
+} from "react-leaflet";
+
 import "./style.css";
 
-function LoginPage() {
+function MapPage() {
     const [levels, setLevels] = useState([]);
     const [search, setSearch] = useState("");
     const [activeLevel, setActiveLevel] = useState(null);
     const [addLevelShow, setAddLevelShow] = useState(false);
     const [editLevelShow, setEditLevelShow] = useState(false);
     const [deleteLevelShow, setDeleteLevelShow] = useState(false);
+
+    const [markers, setMarkers] = useState([]);
+
+    const [imageBounds, setImageBounds] = useState([
+        [0, 0],
+        [1, 1],
+    ]);
+
+    const handleImageLoad = ({ target: img }) => {
+        setImageBounds([
+            [0, 0],
+            [img.naturalWidth / 36, img.naturalHeight / 9],
+        ]);
+    };
+
+    const AddMarker = () => {
+        useMapEvents({
+            dblclick: (e) => {
+                setMarkers([...markers, e.latlng]);
+            },
+        });
+        return null;
+    };
 
     useEffect(() => {
         fetchLevels(); // eslint-disable-next-line
@@ -83,8 +114,40 @@ function LoginPage() {
                             </Col>
                         </Row>
                     </Col>
-                    <Col sm={8}>
-                        <h1>Dashboard</h1>
+                    <Col sm={8} className="justify-content-center">
+                        <Row className="my-4">
+                            {/* Image of selected level */}
+                            <Col className="d-flex justify-content-center align-items-center">
+                                <img
+                                    src={activeLevel ? activeLevel.img_url : ""}
+                                    onLoad={handleImageLoad}
+                                    style={{ display: "none" }}
+                                    alt=""
+                                />
+                                <MapContainer
+                                    center={[70, 120]}
+                                    zoom={2.5}
+                                    style={{ height: "89vh", width: "100%" }}
+                                >
+                                    <AddMarker />
+                                    {markers.map((position, idx) => (
+                                        <Marker
+                                            key={`marker-${idx}`}
+                                            position={position}
+                                            icon={defaultIcon}
+                                        />
+                                    ))}
+                                    <ImageOverlay
+                                        url={
+                                            activeLevel
+                                                ? activeLevel.img_url
+                                                : ""
+                                        }
+                                        bounds={imageBounds}
+                                    />
+                                </MapContainer>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </Container>
@@ -109,4 +172,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default MapPage;

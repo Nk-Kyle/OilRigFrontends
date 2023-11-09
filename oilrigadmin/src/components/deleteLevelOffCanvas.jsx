@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Offcanvas, Button } from "react-bootstrap";
+import { ConfirmationModal } from "./confirmationModal";
 
 export const DeleteLevelOffCanvas = ({
     show,
@@ -11,6 +12,7 @@ export const DeleteLevelOffCanvas = ({
     const [levelName, setLevelName] = useState("");
     const [currentId, setCurrentId] = useState("");
     const [showError, setShowError] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     useEffect(() => {
         setShowError(false);
@@ -58,9 +60,7 @@ export const DeleteLevelOffCanvas = ({
         return match[1];
     };
 
-    const handleSubmit = () => {
-        // Check if both fields are filled
-
+    const handleConfirm = () => {
         // Send the request to the backend
         fetch(process.env.REACT_APP_BACKEND + "/manage/levels", {
             method: "DELETE",
@@ -84,6 +84,10 @@ export const DeleteLevelOffCanvas = ({
                 setShowError(true);
             }
         });
+    };
+
+    const handleSubmit = () => {
+        setShowConfirmation(true);
     };
 
     return (
@@ -159,6 +163,14 @@ export const DeleteLevelOffCanvas = ({
                     </div>
                 </Offcanvas.Body>
             </Offcanvas>
+
+            <ConfirmationModal
+                show={showConfirmation}
+                handleClose={() => setShowConfirmation(false)}
+                handleConfirm={handleConfirm}
+                title="Delete Level"
+                body="Are you sure you want to delete this level?"
+            />
         </div>
     );
 };
