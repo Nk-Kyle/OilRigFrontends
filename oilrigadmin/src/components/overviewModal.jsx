@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, Marker, ImageOverlay } from "react-leaflet";
+import { MapContainer, Marker, ImageOverlay, Tooltip } from "react-leaflet";
 import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
 import { useMapEvents } from "react-leaflet";
 import { marker as icon } from "./marker";
@@ -12,6 +12,7 @@ export const CrossCutModal = ({
     handleClose,
     fetchLevels,
 }) => {
+    const [dragging, setDragging] = useState(true);
     const [marker, setMarker] = useState(null);
     const [locationName, setLocationName] = useState("");
     const [enableButton, setEnableButton] = useState(false);
@@ -19,13 +20,20 @@ export const CrossCutModal = ({
 
     useEffect(() => {
         setShowError(false);
+        setDragging(true);
     }, [locationName]);
 
     const AddMarker = () => {
         useMapEvents({
-            click: (e) => {
+            dblclick: (e) => {
                 setEnableButton(true);
                 setMarker(e.latlng);
+                setDragging(false);
+            },
+            mousemove: (e) => {
+                if (dragging) {
+                    setMarker(e.latlng);
+                }
             },
         });
         return null;
@@ -35,6 +43,7 @@ export const CrossCutModal = ({
         handleClose();
         setEnableButton(false);
         setMarker(null);
+        setDragging(true);
     };
 
     const handleSubmit = () => {
@@ -84,6 +93,7 @@ export const CrossCutModal = ({
                             center={[72, 131]}
                             zoom={2.5}
                             style={{ height: "80vh", width: "100%" }}
+                            doubleClickZoom={false}
                         >
                             <AddMarker />
                             {marker && <Marker position={marker} icon={icon} />}
@@ -109,7 +119,10 @@ export const CrossCutModal = ({
                         <Button
                             variant={showError ? "danger" : "primary"}
                             disabled={
-                                !enableButton || !locationName || showError
+                                !enableButton ||
+                                !locationName ||
+                                showError ||
+                                dragging
                             }
                             className="mt-1"
                             onClick={handleSubmit}
