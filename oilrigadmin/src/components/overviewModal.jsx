@@ -78,10 +78,10 @@ export const CrossCutModal = ({
                 <Modal.Title>Choose Cross Section - {LevelName}</Modal.Title>
             </Modal.Header>
             <Modal.Body className="py-0">
-                <Row>
-                    <Col style={{ marginLeft: "13rem", marginRight: "13rem" }}>
+                <Row className="justify-content-center">
+                    <Col xs={9} md={9} lg={9}>
                         <MapContainer
-                            center={[72, 130]}
+                            center={[72, 131]}
                             zoom={2.5}
                             style={{ height: "80vh", width: "100%" }}
                         >
@@ -97,11 +97,8 @@ export const CrossCutModal = ({
                         </MapContainer>
                     </Col>
                 </Row>
-                <Row>
-                    <Col
-                        className="mt-4 d-grid"
-                        style={{ marginLeft: "13rem", marginRight: "13rem" }}
-                    >
+                <Row className="justify-content-center">
+                    <Col className="mt-4 d-grid" xs={9} md={9} lg={9}>
                         {/* <Form.Label>Location Name</Form.Label> */}
                         <Form.Control
                             type="text"

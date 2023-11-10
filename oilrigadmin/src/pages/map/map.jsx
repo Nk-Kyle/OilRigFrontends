@@ -80,6 +80,7 @@ function MapPage() {
                                         levels={levels}
                                         search={search}
                                         setActiveLevel={setActiveLevel}
+                                        fetchLevels={fetchLevels}
                                     />
                                 </div>
                             </Col>
