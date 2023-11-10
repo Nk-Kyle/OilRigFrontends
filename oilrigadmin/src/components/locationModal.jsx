@@ -38,6 +38,7 @@ export const LocationModal = ({
         ).then((res) => {
             if (res.ok) {
                 handleClose();
+                fetchLevels();
             } else {
                 setShowError(true);
             }
