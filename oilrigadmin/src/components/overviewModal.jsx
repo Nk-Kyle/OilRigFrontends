@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, Marker, ImageOverlay, Tooltip } from "react-leaflet";
-import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
+import { MapContainer, Marker, ImageOverlay } from "react-leaflet";
+import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import { useMapEvents } from "react-leaflet";
 import { marker as icon } from "./marker";
 

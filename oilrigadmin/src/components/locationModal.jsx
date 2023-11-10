@@ -22,7 +22,10 @@ export const LocationModal = ({
         // Update location
         const tempLocation = { ...location, name: locationName };
         fetch(
-            "http://localhost:5000/manage/levels/" + level.id + "/locations",
+            process.env.REACT_APP_BACKEND +
+                "/manage/levels/" +
+                level.id +
+                "/locations",
             {
                 method: "PUT",
                 headers: {
@@ -43,7 +46,10 @@ export const LocationModal = ({
 
     const handleDelete = () => {
         fetch(
-            "http://localhost:5000/manage/levels/" + level.id + "/locations",
+            process.env.REACT_APP_BACKEND +
+                "/manage/levels/" +
+                level.id +
+                "/locations",
             {
                 method: "DELETE",
                 headers: {
