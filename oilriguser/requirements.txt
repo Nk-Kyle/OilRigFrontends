@@ -1,0 +1,4 @@
+Flask==3.0.0
+flask_wtf==1.2.1
+opencv-python==4.8.1.78
+ultralytics==8.0.208

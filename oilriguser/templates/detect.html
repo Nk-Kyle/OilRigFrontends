@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block stylesheet %}
+{{ super() }}
+<link rel="stylesheet" href="../static/css/detect.css" />
+{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="webcam-container">
+        <img src="{{ url_for('webapp') }}" alt="Upload video" />
+    </div>
+    <div class="text-container">
+        <h3>Hello Bryan Bernigen</h3>
+        <p>
+            In order to print your worksheet,<br>
+            Please make sure you have worn:
+            <ul>
+                <li>Earmuff</li>
+                <li>Mask</li>
+                <li>Helm</li>
+                <li>Safety-Glasses</li>
+                <li>Safety-Shoes</li>
+                <li>Vest</li>
+            </ul>
+        </p>
+        <p>
+            If you have any trouble, <br>
+            Please contact your supervisor.
+        </p>
+        <a href="/home">
+            <button type="button" class="btn btn-primary">Cancel</button>
+        </a>
+    </div>
+</div>
+{% endblock %}
