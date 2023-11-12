@@ -1,10 +1,51 @@
-<!-- simple html -->
-<DOCTYPE html>
-<html>
-    <head>
-        <title>OilRig</title>
-    </head>
-    <body>
-        <h1>Hello</h1>
-    </body>
-</html>
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/index.css" />
+<script src="../static/js/index.js"></script>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="left-container">
+        <div>
+            <h1 class="text-center">
+                Welcome to OilRig<br />Please scan your QR code
+            </h1>
+        </div>
+        <div class="webcam-container">
+            <img src="{{ url_for('qrscanner') }}" alt="Upload video" />
+        </div>
+    </div>
+    <div class="right-container">
+        <form>
+            <fieldset disabled>
+                <legend class="jumbotron text-center alert-danger">
+                    No User Detected
+                </legend>
+                <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label"
+                        >Name</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledTextInput"
+                        class="form-control"
+                        placeholder="{{USER_NAME}}"
+                    />
+                </div>
+                <div class="mb-5">
+                    <label for="disabledTextInput" class="form-label"
+                        >Type</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledTextInput"
+                        class="form-control"
+                        placeholder="{{USER_TYPE}}"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg disabled">
+                    Login
+                </button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

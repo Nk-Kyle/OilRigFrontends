@@ -17,7 +17,8 @@ import cv2
 
 # YOLO_Video is the python file which contains the code for our object detection model
 #Video Detection is the Function which performs Object Detection on Input Video
-from objectdetection.detect import detect_object 
+from objectdetection.detect import detect_object
+from qrscanner.qrscanner import detect_qr 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'muhammadmoin'
@@ -33,6 +34,14 @@ def generate_frames_web(path_x):
         yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
 
+def generate_qr_frames(path_x):
+    qr_output = detect_qr(path_x)
+    for detection_ in qr_output:
+        ref,buffer=cv2.imencode('.jpg',detection_)
+
+        frame=buffer.tobytes()
+        yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
 
 #Routes
 @app.route('/', methods=['GET','POST'])
@@ -40,6 +49,10 @@ def generate_frames_web(path_x):
 def home():
     session.clear()
     return render_template('index.html')
+
+@app.route('/qrscanner')
+def qrscanner():
+    return Response(generate_qr_frames(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Rendering the Webcam Rage
 @app.route("/detect", methods=['GET','POST'])
