@@ -17,12 +17,13 @@ import cv2
 
 # YOLO_Video is the python file which contains the code for our object detection model
 #Video Detection is the Function which performs Object Detection on Input Video
-from objectdetection.detect import generate_object_detection_frame
+from objectdetection.detect import ObjectDetector
 from qrscanner.qrscanner import QRScanner
 app = Flask(__name__)
 #TODO: Change the secret key with environment variable
 app.config['SECRET_KEY'] = 'secretkey'
 myqrscanner = QRScanner()
+myobjectdetector = ObjectDetector()
 
 
 #Routes
@@ -49,12 +50,22 @@ def qrdata():
 # Rendering the Webcam Rage
 @app.route("/detect/<username>", methods=['GET','POST'])
 def detect(username):
+    myobjectdetector.reset_data()
     return render_template('detect.html',username=username)
 
 # To display the Output Video on Webcam page
 @app.route('/webapp')
 def webapp():
-    return Response(generate_object_detection_frame(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(myobjectdetector.generate_object_detection_frame(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# Handle detection data from the webcam
+@app.route('/detectdata', methods=['POST', 'GET'])
+def detectdata():
+    if(request.method == 'POST'):
+        myobjectdetector.set_data(request.form) 
+        return jsonify({"status": "success"})
+    else:
+        return myobjectdetector.get_data()
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,13 +2,40 @@
 {% block stylesheet %}
 {{ super() }}
 <link rel="stylesheet" href="../static/css/detect.css" />
+<script>
+    function checkdetectiondata(){
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function(){
+            if (this.status == 200 && this.readyState == 4){
+                data = JSON.parse(this.responseText);
+                if(data.all_objects_detected){
+                    document.getElementById("webcam-container").style.border =
+                        "5px solid green";
+                    document.getElementById("printButton").disabled = false;
+
+                    //Change color
+                    const jumbotron = document.getElementById("jumbotron");
+                    jumbotron.classList.remove("alert-danger");
+                    jumbotron.classList.add("alert-success");
+                    jumbotron.innerHTML = "All Object Detected";
+                }
+            }
+        }
+        xhttp.open("GET", "/detectdata", true);
+        xhttp.send();
+    }
+    setInterval(checkdetectiondata, 3000);
+</script>
 {% endblock %}
 {% block content %}
 <div class="content">
-    <div class="webcam-container">
+    <div id="webcam-container" class="webcam-container">
         <img src="{{ url_for('webapp') }}" alt="Upload video" />
     </div>
     <div class="text-container">
+        <div id="jumbotron" class="jumbotron alert-danger">
+            Nota all objects detected
+        </div>
         <h3>Hello {{username}}</h3>
         <p>
             In order to print your worksheet,<br>
@@ -27,7 +54,10 @@
             Please contact your supervisor.
         </p>
         <a href="/home">
-            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="button" class="btn btn-danger">Cancel</button>
+        </a>
+        <a href="/print">
+            <button id="printButton" type="button" class="btn btn-success" disabled>Print Worksheet</button>
         </a>
     </div>
 </div>
