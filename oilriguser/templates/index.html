@@ -1,6 +1,38 @@
 {% extends "layout.html" %} {% block stylesheet %} {{ super() }}
 <link rel="stylesheet" href="../static/css/index.css" />
-<script src="../static/js/index.js"></script>
+<script>
+    //Check if QR code is detected
+    function checkqrdata() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.status == 200 && this.readyState == 4) {
+                data = JSON.parse(this.responseText);
+                if (data.username != null && data.usertype != null) {
+                    document.getElementById("disabledNameInput").value =
+                        data.username;
+                    document.getElementById("disabledTypeInput").value =
+                        data.usertype;
+                    document.getElementById("loginButton").disabled = false;
+
+                    //Change color
+                    document.getElementById("webcam-container").style.border =
+                        "5px solid green";
+                    const jumbotron = document.getElementById("jumbotron");
+                    jumbotron.classList.remove("alert-danger");
+                    jumbotron.classList.add("alert-success");
+                    jumbotron.innerHTML = "User Detected";
+
+                    //Change Login Reroute
+                    document.getElementById("loginReroute").href = "/detect/"+data.username;
+
+                }
+            }
+        };
+        xhttp.open("GET", "/qrdata", true);
+        xhttp.send();
+    }
+    setInterval(checkqrdata, 3000);
+</script>
 {% endblock %} {% block content %}
 <div class="content">
     <div class="left-container">
@@ -9,41 +41,51 @@
                 Welcome to OilRig<br />Please scan your QR code
             </h1>
         </div>
-        <div class="webcam-container">
-            <img src="{{ url_for('qrscanner') }}" alt="Upload video" />
+        <div id="webcam-container" class="webcam-container">
+            <img src="{{ url_for('qrscanner') }}" alt="Webcam" />
         </div>
     </div>
     <div class="right-container">
         <form>
-            <fieldset disabled>
-                <legend class="jumbotron text-center alert-danger">
+            <fieldset>
+                <legend
+                    id="jumbotron"
+                    class="jumbotron text-center alert-danger"
+                >
                     No User Detected
                 </legend>
                 <div class="mb-3">
-                    <label for="disabledTextInput" class="form-label"
+                    <label for="disabledNameInput" class="form-label"
                         >Name</label
                     >
                     <input
                         type="text"
-                        id="disabledTextInput"
+                        id="disabledNameInput"
                         class="form-control"
-                        placeholder="{{USER_NAME}}"
+                        disabled
                     />
                 </div>
                 <div class="mb-5">
-                    <label for="disabledTextInput" class="form-label"
+                    <label for="disabledTypeInput" class="form-label"
                         >Type</label
                     >
                     <input
                         type="text"
-                        id="disabledTextInput"
+                        id="disabledTypeInput"
                         class="form-control"
-                        placeholder="{{USER_TYPE}}"
+                        disabled
                     />
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg disabled">
-                    Login
-                </button>
+                <a id="loginReroute" href="/detect">
+                    <button
+                        type="button"
+                        id="loginButton"
+                        class="btn btn-primary btn-lg"
+                        disabled
+                    >
+                        Login
+                    </button>
+                </a>
             </fieldset>
         </form>
     </div>

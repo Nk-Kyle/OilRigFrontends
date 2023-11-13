@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response,jsonify,request,session
+from flask import Flask, redirect, render_template, Response,jsonify,request,session, url_for
 
 #FlaskForm--> it is required to receive input from the user
 # Whether uploading a video file  to our object detection model
@@ -17,53 +17,44 @@ import cv2
 
 # YOLO_Video is the python file which contains the code for our object detection model
 #Video Detection is the Function which performs Object Detection on Input Video
-from objectdetection.detect import detect_object
-from qrscanner.qrscanner import detect_qr 
+from objectdetection.detect import generate_object_detection_frame
+from qrscanner.qrscanner import QRScanner
 app = Flask(__name__)
+#TODO: Change the secret key with environment variable
+app.config['SECRET_KEY'] = 'secretkey'
+myqrscanner = QRScanner()
 
-app.config['SECRET_KEY'] = 'muhammadmoin'
-app.config['UPLOAD_FOLDER'] = 'static/files'
-
-
-def generate_frames_web(path_x):
-    yolo_output = detect_object(path_x)
-    for detection_ in yolo_output:
-        ref,buffer=cv2.imencode('.jpg',detection_)
-
-        frame=buffer.tobytes()
-        yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
-
-def generate_qr_frames(path_x):
-    qr_output = detect_qr(path_x)
-    for detection_ in qr_output:
-        ref,buffer=cv2.imencode('.jpg',detection_)
-
-        frame=buffer.tobytes()
-        yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
 
 #Routes
 @app.route('/', methods=['GET','POST'])
 @app.route('/home', methods=['GET','POST'])
 def home():
-    session.clear()
+    myqrscanner.reset_data()
     return render_template('index.html')
 
+# To display the QR Scanner
 @app.route('/qrscanner')
 def qrscanner():
-    return Response(generate_qr_frames(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(myqrscanner.generate_qr_frames(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# Handle QR data Data from the QR Scanner
+@app.route('/qrdata', methods=['POST', 'GET'])
+def qrdata():
+    if(request.method == 'POST'):
+        myqrscanner.set_data(request.form)
+        return jsonify({"status": "success"})
+    else:
+        return myqrscanner.get_data()
 
 # Rendering the Webcam Rage
-@app.route("/detect", methods=['GET','POST'])
-def detect():
-    session.clear()
-    return render_template('detect.html')
+@app.route("/detect/<username>", methods=['GET','POST'])
+def detect(username):
+    return render_template('detect.html',username=username)
 
 # To display the Output Video on Webcam page
 @app.route('/webapp')
 def webapp():
-    return Response(generate_frames_web(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generate_object_detection_frame(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
     app.run(debug=True)

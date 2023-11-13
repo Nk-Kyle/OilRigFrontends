@@ -70,3 +70,12 @@ def detect_object(path):
 
     cap.release()
     cv2.destroyAllWindows()
+
+def generate_object_detection_frame(path_x):
+    yolo_output = detect_object(path_x)
+    for detection_ in yolo_output:
+        ref,buffer=cv2.imencode('.jpg',detection_)
+
+        frame=buffer.tobytes()
+        yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
