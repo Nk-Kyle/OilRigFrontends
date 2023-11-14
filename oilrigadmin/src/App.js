@@ -9,6 +9,7 @@ import {
 import Login from "./pages/login/login";
 import Dashboard from "./pages/dashboard/dashboard";
 import Map from "./pages/map/map";
+import Assignment from "./pages/assignment/assignment";
 import { checkLoggedIn } from "./utils/auth";
 
 function ProtectedRoute({ element }) {
@@ -36,6 +37,10 @@ function App() {
                 <Route
                     path="/map"
                     element={<ProtectedRoute element={<Map />} />}
+                />
+                <Route
+                    path="/assignment"
+                    element={<ProtectedRoute element={<Assignment />} />}
                 />
                 <Route path="/login" element={<Login />} />
             </Routes>
