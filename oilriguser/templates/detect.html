@@ -22,6 +22,7 @@
             }
         }
         xhttp.open("GET", "/detectdata", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + '{{API_KEY}}');
         xhttp.send();
     }
     setInterval(checkdetectiondata, 3000);

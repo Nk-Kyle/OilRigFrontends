@@ -82,7 +82,7 @@ class ObjectDetector:
 
            
             if(detectedClasses == 0b000100):
-                requests.post(fe_url, data={"all_objects_detected": True})
+                requests.post(fe_url, headers={'Authorization': self.api_key}, data={"all_objects_detected": True})
                 
 
             yield img

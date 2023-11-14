@@ -1,27 +1,39 @@
+
+import os
+from dotenv import load_dotenv
 import cv2
 import requests
 
 class QRScanner:
 
     def __init__(self):
+        self.id = None
         self.user_name = None
         self.user_type = None
+        
+        load_dotenv()
+        self.api_key = 'Bearer ' + os.environ.get('API_KEY')
     
     def reset_data(self):
+        self.id = None
         self.user_name = None
         self.user_type = None
     
     def get_data(self):
         return{
+            "id": self.id,
             "username": self.user_name,
             "usertype": self.user_type
         }
 
     def set_data(self, data):
         print(data)
+        _id = data.get("id")
         _name = data.get("username")
         _type = data.get("usertype")
 
+        if _id:
+            self.id = _id
         if _name:
             self.user_name = _name
         if _type:
@@ -44,7 +56,7 @@ class QRScanner:
                 data, one, _ = qrDetector.detectAndDecode(img)
                 if data:
                     # notify html
-                    requests.post(fe_url, data={"username": data, "usertype": "kuli"})
+                    requests.post(fe_url, headers={'Authorization': self.api_key}, data={"id":1,"username": data, "usertype": "kuli"})
 
                 yield img
             except:

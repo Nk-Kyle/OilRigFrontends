@@ -22,13 +22,11 @@
                     jumbotron.classList.add("alert-success");
                     jumbotron.innerHTML = "User Detected";
 
-                    //Change Login Reroute
-                    document.getElementById("loginReroute").href = "/detect/"+data.username;
-
                 }
             }
         };
         xhttp.open("GET", "/qrdata", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + '{{API_KEY}}');
         xhttp.send();
     }
     setInterval(checkqrdata, 3000);
@@ -76,7 +74,7 @@
                         disabled
                     />
                 </div>
-                <a id="loginReroute" href="/detect">
+                <a id="loginReroute" href="/login">
                     <button
                         type="button"
                         id="loginButton"
