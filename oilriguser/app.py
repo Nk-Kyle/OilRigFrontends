@@ -103,7 +103,13 @@ def detectdata():
 
 #Assignments Page
 @app.route('/assignment', methods=['GET'])
+@flask_login.login_required
 def assignment():
+    # TODO: Uncomment the following code to enable assignment page
+    # if(myobjectdetector.get_data() == True):
+    #     return render_template('assignment.html')
+    # else:
+    #     return redirect(url_for('detect'))
     return render_template('assignment.html')
 
 if __name__ == "__main__":
