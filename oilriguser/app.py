@@ -101,5 +101,10 @@ def detectdata():
     else:
         return myobjectdetector.get_data()
 
+#Assignments Page
+@app.route('/assignment', methods=['GET'])
+def assignment():
+    return render_template('assignment.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
