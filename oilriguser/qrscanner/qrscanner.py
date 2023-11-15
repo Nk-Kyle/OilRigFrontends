@@ -57,10 +57,13 @@ class QRScanner:
                 if data:
                     # notify html
                     requests.post(fe_url, headers={'Authorization': self.api_key}, data={"id":1,"username": data, "usertype": "kuli"})
+                    break
 
                 yield img
             except:
                 pass
+        cv2.destroyAllWindows()
+        cap.release()
 
     def generate_qr_frames(self, path_x):
         qr_output = self.detect_qr(path_x)

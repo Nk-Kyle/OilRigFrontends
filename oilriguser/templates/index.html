@@ -21,7 +21,9 @@
                     jumbotron.classList.remove("alert-danger");
                     jumbotron.classList.add("alert-success");
                     jumbotron.innerHTML = "User Detected";
-
+                    
+                    //Stop checking for QR code
+                    clearInterval(myInterval);
                 }
             }
         };
@@ -29,7 +31,7 @@
         xhttp.setRequestHeader("Authorization", "Bearer " + '{{API_KEY}}');
         xhttp.send();
     }
-    setInterval(checkqrdata, 3000);
+    const myInterval = setInterval(checkqrdata, 3000);
 </script>
 {% endblock %} {% block content %}
 <div class="content">

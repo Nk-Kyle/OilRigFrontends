@@ -18,6 +18,9 @@
                     jumbotron.classList.remove("alert-danger");
                     jumbotron.classList.add("alert-success");
                     jumbotron.innerHTML = "All Object Detected";
+
+                    //Stop checking for detection data
+                    clearInterval(myInterval);
                 }
             }
         }
@@ -25,7 +28,7 @@
         xhttp.setRequestHeader("Authorization", "Bearer " + '{{API_KEY}}');
         xhttp.send();
     }
-    setInterval(checkdetectiondata, 3000);
+    const myInterval = setInterval(checkdetectiondata, 3000);
 </script>
 {% endblock %}
 {% block content %}
