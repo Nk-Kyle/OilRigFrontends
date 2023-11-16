@@ -48,13 +48,21 @@ def load_user(id):
 def home():
     flask_login.logout_user()
     myqrscanner.reset_data()
-    return render_template('index.html',API_KEY=os.environ.get('API_KEY'))
+    return render_template('index.html')
 
-#Middleware to move from home to detect
+#Login Page
+@app.route('/loginpage', methods=['GET','POST'])
+def loginpage():
+    flask_login.logout_user()
+    myqrscanner.reset_data()
+    return render_template('login.html',API_KEY=os.environ.get('API_KEY'))
+
+
+#Middleware to move from loginpage to detect
 @app.route('/login', methods=['GET','POST'])
 def login():
     if myqrscanner.id is None:
-        return redirect(url_for('home'))
+        return redirect(url_for('loginpage'))
 
     user = User(myqrscanner.id)
     flask_login.login_user(user)

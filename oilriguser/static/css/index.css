@@ -1,9 +1,9 @@
 .content{
     display: flex;
-    flex-direction: row;
-    gap: 5vw;
+    flex-direction: column;
 
     height: 95vh;
+    gap: 5vh;
 
     justify-content: center;
     align-items: center;
@@ -14,36 +14,36 @@
     color: white;
 }
 
-.left-container {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    height: 100%;
-    width: fit-content;
-}
-
-.webcam-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: black;
-    width: 820px;
-    height: 580px;
-    object-fit: contain;
-    padding: auto;
-
-    border-radius: 35px;
-    border: 5px solid red;
-}
-
-
-
-.right-container {
+.content a{
     width: 20vw;
-    font-size: x-large;
-    margin-top: 10vh;
+    border: 5px solid white;
+    border-radius: 1vw;
+}
+
+.content a button{
+    width: 100%;
+    height: 100%;
+    font-size: xx-large;
+    border-radius: 1vw;
+}
+
+.upper-content{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    gap: 5vw;
+
+    width: 100%;
+    height: 20%;
+}
+
+.lower-content{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+
+    width: 100%;
+    height: 20%;
 }

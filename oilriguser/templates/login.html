@@ -1,0 +1,93 @@
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/loginpage.css" />
+<script>
+    //Check if QR code is detected
+    function checkqrdata() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.status == 200 && this.readyState == 4) {
+                data = JSON.parse(this.responseText);
+                if (data.username != null && data.usertype != null) {
+                    document.getElementById("disabledNameInput").value =
+                        data.username;
+                    document.getElementById("disabledTypeInput").value =
+                        data.usertype;
+                    document.getElementById("loginButton").disabled = false;
+
+                    //Change color
+                    document.getElementById("webcam-container").style.border =
+                        "5px solid green";
+                    const jumbotron = document.getElementById("jumbotron");
+                    jumbotron.classList.remove("alert-danger");
+                    jumbotron.classList.add("alert-success");
+                    jumbotron.innerHTML = "User Detected";
+                    
+                    //Stop checking for QR code
+                    clearInterval(myInterval);
+                }
+            }
+        };
+        xhttp.open("GET", "/qrdata", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + '{{API_KEY}}');
+        xhttp.send();
+    }
+    const myInterval = setInterval(checkqrdata, 3000);
+</script>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="left-container">
+        <div>
+            <h1 class="text-center">
+                Welcome to OilRig<br />Please scan your QR code
+            </h1>
+        </div>
+        <div id="webcam-container" class="webcam-container">
+            <img src="{{ url_for('qrscanner') }}" alt="Webcam" />
+        </div>
+    </div>
+    <div class="right-container">
+        <form>
+            <fieldset>
+                <legend
+                    id="jumbotron"
+                    class="jumbotron text-center alert-danger"
+                >
+                    No User Detected
+                </legend>
+                <div class="mb-3">
+                    <label for="disabledNameInput" class="form-label"
+                        >Name</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledNameInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <div class="mb-5">
+                    <label for="disabledTypeInput" class="form-label"
+                        >Type</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledTypeInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <a id="loginReroute" href="/login">
+                    <button
+                        type="button"
+                        id="loginButton"
+                        class="btn btn-primary btn-lg"
+                        disabled
+                    >
+                        Login
+                    </button>
+                </a>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

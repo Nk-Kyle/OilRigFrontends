@@ -1,14 +1,19 @@
 #cource: https://dipankarmedh1.medium.com/real-time-object-detection-with-yolo-and-webcam-enhancing-your-computer-vision-skills-861b97c78993
 
+import os
 from ultralytics import YOLO
 import cv2
 import math 
 import requests
+import dotenv
 
 class ObjectDetector:
 
     def __init__(self):
         self.all_objects_detected = False
+
+        dotenv.load_dotenv()
+        self.api_key = 'Bearer '+ os.environ.get('API_KEY')
 
     def reset_data(self):
         self.all_objects_detected = False
@@ -81,7 +86,7 @@ class ObjectDetector:
                     cv2.putText(img, objetName, org, font, fontScale, objectColor, thickness)
 
            
-            if(detectedClasses == 0b000100):
+            if(detectedClasses == 0b101111):
                 requests.post(fe_url, headers={'Authorization': self.api_key}, data={"all_objects_detected": True})
                 break
 
