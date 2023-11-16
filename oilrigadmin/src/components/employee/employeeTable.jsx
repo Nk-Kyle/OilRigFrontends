@@ -1,8 +1,8 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import "./assignmentTable.css";
-import columns from "../../data/assignmentColumns";
-export const AssignmentTable = (assignments) => {
+import "./employeeTable.css";
+import columns from "../../data/employeeColumns";
+export const EmployeeTable = (assignments) => {
     return (
         <div>
             <BootstrapTable

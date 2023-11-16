@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar";
 import { Row, Col, Button } from "react-bootstrap";
-import { AddAssignmentOffCanvas } from "../../components/assignment/addAssignment";
-import { AssignmentTable } from "../../components/assignment/assignmentTable";
-function AssignmentPage() {
-    const [showAddAssignment, setShowAddAssignment] = useState(false);
-    const [assignments, setAssignments] = useState([]);
+import { AddEmployeeOffCanvas } from "../../components/employee/addEmployee";
+import { EmployeeTable } from "../../components/employee/employeeTable";
+function EmployeePage() {
+    const [showAddEmployee, setShowAddEmployee] = useState(false);
+    const [Employees, setEmployees] = useState([]);
 
     const fetchAssignments = () => {
-        fetch(process.env.REACT_APP_BACKEND + "/assignments", {
+        fetch(process.env.REACT_APP_BACKEND + "/employees", {
             method: "GET",
         })
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
-                setAssignments(data.data);
+                console.log(data.data);
+                setEmployees(data.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -31,29 +32,29 @@ function AssignmentPage() {
             <NavbarComponent />
             {/* Controls */}
             <div className="px-5 pt-2">
-                <h1>Assignments</h1>
+                <h1>Employees</h1>
                 <hr />
                 <Row className="my-4">
                     <Col>
                         <Button
                             variant="primary"
                             onClick={() => {
-                                setShowAddAssignment(true);
+                                setShowAddEmployee(true);
                             }}
                         >
-                            Add Assignment
+                            Add Employee
                         </Button>
                     </Col>
                 </Row>
-                <AssignmentTable assignments={assignments} />
+                <EmployeeTable assignments={Employees} />
             </div>
             {/* Table */}
-            <AddAssignmentOffCanvas
-                show={showAddAssignment}
-                handleClose={() => setShowAddAssignment(false)}
+            <AddEmployeeOffCanvas
+                show={showAddEmployee}
+                handleClose={() => setShowAddEmployee(false)}
             />
         </div>
     );
 }
 
-export default AssignmentPage;
+export default EmployeePage;
