@@ -23,6 +23,9 @@ export const NavbarComponent = () => {
                     <Nav.Link as={NavLink} exact="true" to="/assignment">
                         Assignment
                     </Nav.Link>
+                    <Nav.Link as={NavLink} exact="true" to="/employee">
+                        Employee
+                    </Nav.Link>
                 </Nav>
                 <Nav>
                     <Nav.Link>Admin Account Name</Nav.Link>

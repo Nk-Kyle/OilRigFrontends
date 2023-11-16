@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar";
-import { LevelAccordion } from "../../components/levels";
-import { AddLevelOffCanvas } from "../../components/addLevelOffCanvas";
-import { EditLevelOffCanvas } from "../../components/editLevelOffCanvas";
-import { DeleteLevelOffCanvas } from "../../components/deleteLevelOffCanvas";
-import { LeafletCanvas } from "../../components/leafletCanvas";
+import { LevelAccordion } from "../../components/map/levels";
+import { AddLevelOffCanvas } from "../../components/map/addLevelOffCanvas";
+import { EditLevelOffCanvas } from "../../components/map/editLevelOffCanvas";
+import { DeleteLevelOffCanvas } from "../../components/map/deleteLevelOffCanvas";
+import { LeafletCanvas } from "../../components/map/leafletCanvas";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import "./style.css";

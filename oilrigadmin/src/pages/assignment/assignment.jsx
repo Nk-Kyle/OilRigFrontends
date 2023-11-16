@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavbarComponent } from "../../components/navbar";
 import { Row, Col, Button } from "react-bootstrap";
-import { AddAssignmentOffCanvas } from "../../components/addAssignment";
-import { AssignmentTable } from "../../components/assignmentTable";
+import { AddAssignmentOffCanvas } from "../../components/assignment/addAssignment";
+import { AssignmentTable } from "../../components/assignment/assignmentTable";
 function AssignmentPage() {
     const [showAddAssignment, setShowAddAssignment] = useState(false);
     const [assignments, setAssignments] = useState([]);

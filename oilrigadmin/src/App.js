@@ -42,6 +42,10 @@ function App() {
                     path="/assignment"
                     element={<ProtectedRoute element={<Assignment />} />}
                 />
+                <Route
+                    path="/employee"
+                    element={<ProtectedRoute element={<Assignment />} />}
+                />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </div>

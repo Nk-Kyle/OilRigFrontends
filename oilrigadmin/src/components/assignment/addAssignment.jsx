@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Offcanvas, Button, Form } from "react-bootstrap";
-import setting from "../data/setting";
+import setting from "../../data/setting";
 
 export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
     const [levels, setLevels] = useState([]);

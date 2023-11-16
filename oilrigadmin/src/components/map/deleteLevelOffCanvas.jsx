@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Offcanvas, Button } from "react-bootstrap";
-import { ConfirmationModal } from "./confirmationModal";
+import { ConfirmationModal } from "../confirmationModal";
 
 export const DeleteLevelOffCanvas = ({
     show,
@@ -83,6 +83,7 @@ export const DeleteLevelOffCanvas = ({
                 // Show an error message
                 setShowError(true);
             }
+            setShowConfirmation(false);
         });
     };
 

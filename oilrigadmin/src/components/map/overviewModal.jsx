@@ -20,7 +20,6 @@ export const CrossCutModal = ({
 
     useEffect(() => {
         setShowError(false);
-        setDragging(true);
     }, [locationName]);
 
     const AddMarker = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import "./assignmentTable.css";
-import columns from "../data/columns";
+import columns from "../../data/columns";
 export const AssignmentTable = (assignments) => {
     const mock = [
         {
