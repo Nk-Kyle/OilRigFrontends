@@ -122,6 +122,7 @@ function changeImage() {
 
 function loadTasks(inputtasks) {
     for (i = 0; i < inputtasks.length; i++) {
+        console.log(inputtasks[i]);
         //Create Div
         var myFormCheck = document.createElement("div");
         myFormCheck.classList.add("form-check");
@@ -137,14 +138,40 @@ function loadTasks(inputtasks) {
 
         //Create Label
         var myLabel = document.createElement("label");
-        myLabel.classList.add("radio-button-2x-label");
         myLabel.htmlFor = "flexRadioDefault" + i;
-        myLabel.innerHTML = inputtasks[i].id;
+        
+        //Create Task Container
+        var myTaskContainer = document.createElement("div");
+        myTaskContainer.classList.add("task-container");
+
+        //Create Task ID
+        var myTaskID = document.createElement("div");
+        myTaskID.classList.add("radio-button-2x-label");
+        myTaskID.innerHTML = inputtasks[i].id;
+
+        //Create Task Location
+        var myTaskLocation = document.createElement("b");
+        myTaskLocation.innerHTML = "Location: ";
+        var myTaskLocationSpan = document.createElement("span");
+        myTaskLocationSpan.innerHTML = inputtasks[i].location_name;
+
+        //Create Task Description
+        var myTaskDescription = document.createElement("b");
+        myTaskDescription.innerHTML = "Description: ";
+        var myTaskDescriptionP = document.createElement("p");
+        myTaskDescriptionP.innerHTML = inputtasks[i].description;
 
         //Append
+        myTaskContainer.appendChild(myTaskID);
+        myTaskContainer.appendChild(myTaskLocation);
+        myTaskContainer.appendChild(myTaskLocationSpan);
+        myTaskContainer.appendChild(document.createElement("br"));
+        myTaskContainer.appendChild(myTaskDescription);
+        myTaskContainer.appendChild(myTaskDescriptionP);
+        myLabel.appendChild(myTaskContainer);
         myFormCheck.appendChild(myInput);
         myFormCheck.appendChild(myLabel);
-        document.getElementById("task-container").appendChild(myFormCheck);
+        document.getElementById("tasks-container").appendChild(myFormCheck);
 
         //Put in array
         //TODO: get data correctly

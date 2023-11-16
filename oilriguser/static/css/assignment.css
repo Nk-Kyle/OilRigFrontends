@@ -5,6 +5,7 @@
 
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .left-content {
@@ -13,15 +14,23 @@
     border-right: 5px solid black;
 }
 
+.tasks-container{
+    padding-left: 1vw;
+    width: 100%;
+}
+
 .task-container{
-    margin-left: 1vw;
-    width: 92%;
+    width: 26vw;
+    height: 25vh;
+    border: 1px solid black;
+    margin: 0.5vh 0 0.5vh 0.5vw;
+
+    padding-left: 0.5vw;
+    overflow-y: scroll;
 }
 
 .radio-button-2x-label{
     font-size: xx-large;
-
-    margin: 0.5vh 0 0.5vh 0.5vw;
 }
 
 input[type='radio'] { 
