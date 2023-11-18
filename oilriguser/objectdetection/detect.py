@@ -6,11 +6,20 @@ import cv2
 import math 
 import requests
 import dotenv
-
+torchExists = False
+try:
+    import torch
+    torchExists = True
+except ImportError:
+    pass
 class ObjectDetector:
 
     def __init__(self):
         self.all_objects_detected = False
+        if(torchExists):
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        else:
+            self.device = "cpu"
 
         dotenv.load_dotenv()
         self.api_key = 'Bearer '+ os.environ.get('API_KEY')
@@ -36,7 +45,7 @@ class ObjectDetector:
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720) 
 
         # model
-        model = YOLO("objectdetection/best500v8.pt")
+        model = YOLO("objectdetection/best500v8.pt").to(self.device)
 
         # object classes
         classNames = ["ear-muff","helm", "mask", "safety-glasses","safety-shoes", "vest"]
