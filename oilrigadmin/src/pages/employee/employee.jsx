@@ -3,6 +3,7 @@ import { NavbarComponent } from "../../components/navbar";
 import { Row, Col, Button } from "react-bootstrap";
 import { AddEmployeeOffCanvas } from "../../components/employee/addEmployee";
 import { EmployeeTable } from "../../components/employee/employeeTable";
+
 function EmployeePage() {
     const [showAddEmployee, setShowAddEmployee] = useState(false);
     const [Employees, setEmployees] = useState([]);
@@ -15,7 +16,6 @@ function EmployeePage() {
                 return res.json();
             })
             .then((data) => {
-                console.log(data.data);
                 setEmployees(data.data);
             })
             .catch((err) => {
