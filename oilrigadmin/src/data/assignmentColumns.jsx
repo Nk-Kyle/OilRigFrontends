@@ -1,4 +1,5 @@
 import { Badge } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
 const headerSortingClasses = (column, sortOrder) => {
     if (sortOrder === "asc") {
         return "sorting-asc";
@@ -91,4 +92,37 @@ columns = columns.map((column) => {
     };
 });
 
-export default columns;
+const expandColumns = [
+    {
+        dataField: "timestamp",
+        text: "Timestamp",
+    },
+    {
+        dataField: "state",
+        text: "Status",
+    },
+    {
+        dataField: "progress",
+        text: "Progress",
+    },
+    {
+        dataField: "assigned_to.name",
+        text: "Assigned To",
+    },
+];
+const expandRow = {
+    onlyOneExpanding: true,
+    renderer: (row) => (
+        <div>
+            Description: {row.description}
+            <BootstrapTable
+                keyField="id"
+                data={row.logs}
+                columns={expandColumns}
+                hover
+                noDataIndication={() => "No Data Found"}
+            />
+        </div>
+    ),
+};
+export { columns, expandRow };
