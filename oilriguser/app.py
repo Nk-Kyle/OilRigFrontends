@@ -55,7 +55,7 @@ def home():
 def loginpage():
     flask_login.logout_user()
     myqrscanner.reset_data()
-    return render_template('login.html',API_KEY=os.environ.get('API_KEY'))
+    return render_template('qr.html',PAGE_TYPE='login',API_KEY=os.environ.get('API_KEY'))
 
 
 #Middleware to move from loginpage to detect
@@ -67,6 +67,23 @@ def login():
     user = User(myqrscanner.id)
     flask_login.login_user(user)
     return redirect(url_for('detect'))
+
+#Logout Page
+@app.route('/logoutpage', methods=['GET','POST'])
+def logoutpage():
+    flask_login.logout_user()
+    myqrscanner.reset_data()
+    return render_template('qr.html', PAGE_TYPE='logout',API_KEY=os.environ.get('API_KEY'))
+
+#Middleware to move from logoutpage to home
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    if myqrscanner.id is None:
+        return redirect(url_for('logoutpage'))
+    
+    user = User(myqrscanner.id)
+    flask_login.login_user(user)
+    return redirect(url_for('fillassignment'))
 
 # To display the QR Scanner
 @app.route('/qrscanner')
@@ -89,8 +106,11 @@ def qrdata():
 @app.route("/detect", methods=['GET'])
 @flask_login.login_required
 def detect():
-    myobjectdetector.reset_data()
-    return render_template('detect.html',username=myqrscanner.user_name, API_KEY=os.environ.get('API_KEY'))
+    if(not myqrscanner.is_logged_in):
+        myobjectdetector.reset_data()
+        return render_template('detect.html',username=myqrscanner.user_name, API_KEY=os.environ.get('API_KEY'))
+    else:
+        return redirect(url_for('loginpage'))
 
 # To display the Output Video on Webcam page
 @app.route('/webapp')
@@ -119,6 +139,15 @@ def assignment():
     # else:
     #     return redirect(url_for('detect'))
     return render_template('assignment.html')
+
+#Fill Assignment Page
+@app.route('/fillassignment', methods=['GET'])
+@flask_login.login_required
+def fillassignment():
+    if(myqrscanner.is_logged_in):
+        return render_template('assignment.html')
+    else:
+        return redirect(url_for('loginpage'))
 
 if __name__ == "__main__":
     app.run(debug=True)
