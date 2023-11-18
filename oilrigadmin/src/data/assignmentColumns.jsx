@@ -54,6 +54,12 @@ let columns = [
         },
     },
     {
+        dataField: "progress",
+        text: "Progress",
+        sort: true,
+        headerSortingClasses: headerSortingClasses,
+    },
+    {
         dataField: "status",
         text: "Status",
         sort: true,
@@ -109,6 +115,7 @@ const expandColumns = [
         dataField: "assigned_to.name",
         text: "Assigned To",
     },
+    { dataField: "remarks", text: "Remarks" },
 ];
 const expandRow = {
     onlyOneExpanding: true,

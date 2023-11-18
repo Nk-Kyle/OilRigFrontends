@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 
 const headerSortingClasses = (column, sortOrder) => {
     if (sortOrder === "asc") {
@@ -34,6 +34,35 @@ const getColumns = ({ showQR, handleDelete }) => {
             headerSortingClasses: headerSortingClasses,
         },
         {
+            dataField: "is_logged_in",
+            text: "Logged In",
+            sort: true,
+            formatter: (cellContent, row) => {
+                if (cellContent) {
+                    return (
+                        <Badge
+                            pill
+                            variant="success"
+                            style={{ fontSize: "0.8em", padding: "6px 12px" }}
+                        >
+                            Logged In
+                        </Badge>
+                    );
+                } else {
+                    return (
+                        <Badge
+                            pill
+                            variant="success"
+                            style={{ fontSize: "0.8em", padding: "6px 12px" }}
+                        >
+                            Logged Out
+                        </Badge>
+                    );
+                }
+            },
+            headerSortingClasses: headerSortingClasses,
+        },
+        {
             dataField: "df1",
             text: "Action",
             sort: false,
@@ -42,6 +71,7 @@ const getColumns = ({ showQR, handleDelete }) => {
                     <div>
                         <Button
                             variant="outline-primary"
+                            size="sm"
                             onClick={() => {
                                 showQR(row);
                             }}
@@ -50,6 +80,7 @@ const getColumns = ({ showQR, handleDelete }) => {
                         </Button>
                         <Button
                             variant="outline-danger"
+                            size="sm"
                             onClick={() => {
                                 handleDelete(row);
                             }}
