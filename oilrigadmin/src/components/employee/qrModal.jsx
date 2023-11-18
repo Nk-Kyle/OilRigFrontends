@@ -9,15 +9,21 @@ export const QRModal = ({ show, employee, handleClose }) => {
         const svg = qrRef.current.childNodes[0];
         const canvas = document.createElement("canvas");
         const svgSize = svg.getBoundingClientRect();
-        canvas.width = svgSize.width;
-        canvas.height = svgSize.height;
+        const borderSize = 10;
+        canvas.width = svgSize.width + borderSize * 2;
+        canvas.height = svgSize.height + borderSize * 2;
         const ctx = canvas.getContext("2d");
         const img = new Image();
-        img.src =
-            "data:image/svg+xml;base64," +
-            btoa(new XMLSerializer().serializeToString(svg));
+        const newSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${
+            svgSize.width
+        }" height="${svgSize.height}">
+            ${new XMLSerializer().serializeToString(svg)}
+        </svg>`;
+        img.src = "data:image/svg+xml;base64," + btoa(newSvg);
         img.onload = function () {
-            ctx.drawImage(img, 0, 0);
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, borderSize, borderSize);
             const pngUrl = canvas
                 .toDataURL("image/png")
                 .replace("image/png", "image/octet-stream");
