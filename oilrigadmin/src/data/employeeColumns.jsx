@@ -7,7 +7,7 @@ const headerSortingClasses = (column, sortOrder) => {
     return "sorting-desc";
 };
 // employeeColumns.jsx
-const getColumns = ({ rowSelected }) => {
+const getColumns = ({ showQR, handleDelete }) => {
     let columns = [
         {
             dataField: "id",
@@ -25,11 +25,13 @@ const getColumns = ({ rowSelected }) => {
             dataField: "division",
             text: "Division",
             sort: true,
+            headerSortingClasses: headerSortingClasses,
         },
         {
             dataField: "work_type",
             text: "Work Type",
             sort: true,
+            headerSortingClasses: headerSortingClasses,
         },
         {
             dataField: "df1",
@@ -41,11 +43,19 @@ const getColumns = ({ rowSelected }) => {
                         <Button
                             variant="outline-primary"
                             onClick={() => {
-                                console.log(row);
-                                rowSelected(row);
+                                showQR(row);
                             }}
                         >
                             QR Code
+                        </Button>
+                        <Button
+                            variant="outline-danger"
+                            onClick={() => {
+                                handleDelete(row);
+                            }}
+                            className="mx-2"
+                        >
+                            Delete
                         </Button>
                     </div>
                 );

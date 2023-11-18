@@ -8,7 +8,7 @@ function EmployeePage() {
     const [showAddEmployee, setShowAddEmployee] = useState(false);
     const [Employees, setEmployees] = useState([]);
 
-    const fetchAssignments = () => {
+    const fetchEmployees = () => {
         fetch(process.env.REACT_APP_BACKEND + "/employees", {
             method: "GET",
         })
@@ -24,7 +24,7 @@ function EmployeePage() {
     };
 
     useEffect(() => {
-        fetchAssignments();
+        fetchEmployees();
     }, []);
 
     return (
@@ -46,12 +46,18 @@ function EmployeePage() {
                         </Button>
                     </Col>
                 </Row>
-                <EmployeeTable assignments={Employees} />
+                <EmployeeTable
+                    employees={Employees}
+                    fetchEmployees={fetchEmployees}
+                />
             </div>
             {/* Table */}
             <AddEmployeeOffCanvas
                 show={showAddEmployee}
-                handleClose={() => setShowAddEmployee(false)}
+                handleClose={() => {
+                    setShowAddEmployee(false);
+                    fetchEmployees();
+                }}
             />
         </div>
     );

@@ -50,7 +50,10 @@ function AssignmentPage() {
             {/* Table */}
             <AddAssignmentOffCanvas
                 show={showAddAssignment}
-                handleClose={() => setShowAddAssignment(false)}
+                handleClose={() => {
+                    setShowAddAssignment(false);
+                    fetchAssignments();
+                }}
             />
         </div>
     );
