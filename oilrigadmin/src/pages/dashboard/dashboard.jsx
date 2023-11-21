@@ -4,16 +4,28 @@ import {
     Chart,
     ArcElement,
     CategoryScale,
+    BarElement,
+    LinearScale,
     DoughnutController,
     Tooltip,
     Legend,
 } from "chart.js";
 
-import { Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { NavbarComponent } from "../../components/navbar";
 import { EmployeeCarousel } from "../../components/dashboard/employeeCarousel";
 
-const templateData = {
+Chart.register(
+    DoughnutController,
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Tooltip,
+    Legend
+);
+
+const templateDonutData = {
     labels: ["Completed", "Not Completed"],
     datasets: [
         {
@@ -28,10 +40,55 @@ const templateData = {
     ],
 };
 
-// From templateData, change the data to the analytics data
-// Copy and update the data from templateData
+const templateBarData = {
+    labels: ["Activity"],
+    datasets: [
+        {
+            label: "Active",
+            data: [65],
+            backgroundColor: "rgba(75,192,192,0.4)",
+        },
+        {
+            label: "Inactive",
+            data: [28],
+            backgroundColor: "rgba(255,99,132,0.4)",
+        },
+    ],
+};
 
-const options = {
+// Define the options for the chart
+const barOptions = {
+    indexAxis: "y", // This will make the bar chart horizontal
+    scales: {
+        x: {
+            stacked: true,
+            display: false,
+            grid: {
+                display: false,
+            },
+        },
+        y: {
+            stacked: true,
+            display: false,
+            grid: {
+                display: false,
+            },
+        },
+    },
+    elements: {
+        bar: {
+            borderWidth: 2,
+        },
+    },
+    responsive: true,
+    plugins: {
+        legend: {
+            position: "bottom",
+        },
+    },
+};
+
+const donutOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -66,12 +123,43 @@ const textCenterPlugin = {
     },
 };
 
+const textCenterPlugin2 = {
+    id: "textCenter2",
+    beforeDraw: (chart) => {
+        const {
+            ctx,
+            data: { datasets },
+        } = chart;
+        const dataset = datasets[0];
+
+        ctx.save();
+        ctx.font = "bolder 2em Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        dataset.data.forEach((value, index) => {
+            const x = chart.width / 2; // middle of the canvas width
+            const y = (chart.height / dataset.data.length) * (index + 0.5); // middle of the bar
+
+            ctx.fillText(value, x, y);
+        });
+
+        ctx.restore();
+    },
+};
+
 function Dashboard() {
     const [analytics, setAnalytics] = useState({});
-    const [dataMap, setDataMap] = useState({
-        Development: JSON.parse(JSON.stringify(templateData)),
-        Production: JSON.parse(JSON.stringify(templateData)),
-        Construction: JSON.parse(JSON.stringify(templateData)),
+    const [progressDivisionDataMap, setprogressDivisionDataMap] = useState({
+        Development: JSON.parse(JSON.stringify(templateDonutData)),
+        Production: JSON.parse(JSON.stringify(templateDonutData)),
+        Construction: JSON.parse(JSON.stringify(templateDonutData)),
+    });
+    const [activityDivisionDataMap, setActivityDivisionDataMap] = useState({
+        Development: JSON.parse(JSON.stringify(templateBarData)),
+        Production: JSON.parse(JSON.stringify(templateBarData)),
+        Construction: JSON.parse(JSON.stringify(templateBarData)),
     });
 
     useEffect(() => {
@@ -88,34 +176,46 @@ function Dashboard() {
             .then((data) => {
                 setAnalytics(data.data);
 
-                const newDataMap = JSON.parse(JSON.stringify(dataMap));
-                Object.keys(newDataMap).forEach((key) => {
+                const newProgressDivisionDataMap = JSON.parse(
+                    JSON.stringify(progressDivisionDataMap)
+                );
+                Object.keys(newProgressDivisionDataMap).forEach((key) => {
                     if (data.data.division_data[key]) {
                         const completed = Math.round(
                             (data.data.division_data[key].average_progress *
                                 100) /
                                 100
                         );
-                        newDataMap[key].datasets[0].data = [
+                        newProgressDivisionDataMap[key].datasets[0].data = [
                             completed,
                             100 - completed,
                         ];
                     }
                 });
-                setDataMap(newDataMap);
+                setprogressDivisionDataMap(newProgressDivisionDataMap);
+
+                const newActivityDivisionDataMap = JSON.parse(
+                    JSON.stringify(activityDivisionDataMap)
+                );
+                Object.keys(newActivityDivisionDataMap).forEach((key) => {
+                    if (data.data.division_data[key]) {
+                        const active = data.data.division_data[key].logged_in;
+                        const inactive =
+                            data.data.division_data[key].logged_out;
+                        newActivityDivisionDataMap[key].datasets[0].data = [
+                            active,
+                        ];
+                        newActivityDivisionDataMap[key].datasets[1].data = [
+                            inactive,
+                        ];
+                    }
+                });
+                setActivityDivisionDataMap(newActivityDivisionDataMap);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-
-    Chart.register(
-        DoughnutController,
-        ArcElement,
-        CategoryScale,
-        Tooltip,
-        Legend
-    );
 
     return (
         <div>
@@ -130,7 +230,7 @@ function Dashboard() {
                 <hr />
 
                 <div className="row">
-                    {Object.keys(dataMap).map((key, index) => {
+                    {Object.keys(progressDivisionDataMap).map((key, index) => {
                         return (
                             <div className="col-md-4 mt-4" key={index}>
                                 <Card>
@@ -140,8 +240,8 @@ function Dashboard() {
                                     <Card.Body>
                                         {/* Using react-chartjs-2 create a donut chart*/}
                                         <Doughnut
-                                            data={dataMap[key]}
-                                            options={options}
+                                            data={progressDivisionDataMap[key]}
+                                            options={donutOptions}
                                             plugins={[textCenterPlugin]}
                                         />
                                     </Card.Body>
@@ -149,6 +249,29 @@ function Dashboard() {
                             </div>
                         );
                     })}
+                </div>
+                <hr />
+                <div className="row">
+                    {Object.keys(activityDivisionDataMap).map((key, index) => {
+                        return (
+                            <div className="col-md-4 mt-4" key={index}>
+                                <Card>
+                                    <Card.Header className="d-flex justify-content-center">
+                                        {key} Division Activity
+                                    </Card.Header>
+                                    <Card.Body>
+                                        {/* Using react-chartjs-2 create a donut chart*/}
+                                        <Bar
+                                            data={activityDivisionDataMap[key]}
+                                            options={barOptions}
+                                            plugins={[textCenterPlugin2]}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </div>
+                        );
+                    })}
+                    ;
                 </div>
             </div>
         </div>
