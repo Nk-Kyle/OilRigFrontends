@@ -39,12 +39,9 @@ const options = {
 function Dashboard() {
     const [analytics, setAnalytics] = useState({});
     const [dataMap, setDataMap] = useState({
-        "Operator Jumbodrill": JSON.parse(JSON.stringify(templateData)),
-        "Operator Cablebolt": JSON.parse(JSON.stringify(templateData)),
-        "Operator LHD": JSON.parse(JSON.stringify(templateData)),
-        "Operator Dump Truck": JSON.parse(JSON.stringify(templateData)),
-        Welder: JSON.parse(JSON.stringify(templateData)),
-        Helper: JSON.parse(JSON.stringify(templateData)),
+        Development: JSON.parse(JSON.stringify(templateData)),
+        Production: JSON.parse(JSON.stringify(templateData)),
+        Construction: JSON.parse(JSON.stringify(templateData)),
     });
 
     useEffect(() => {
@@ -63,11 +60,10 @@ function Dashboard() {
 
                 const newDataMap = JSON.parse(JSON.stringify(dataMap));
                 Object.keys(newDataMap).forEach((key) => {
-                    if (data.data.work_type_data[key]) {
+                    if (data.data.division_data[key]) {
                         newDataMap[key].datasets[0].data = [
-                            data.data.work_type_data[key].average_progress,
-                            100 -
-                                data.data.work_type_data[key].average_progress,
+                            data.data.division_data[key].average_progress,
+                            100 - data.data.division_data[key].average_progress,
                         ];
                     }
                 });
@@ -104,7 +100,7 @@ function Dashboard() {
                             <div className="col-md-4 mt-4" key={index}>
                                 <Card>
                                     <Card.Header className="d-flex justify-content-center">
-                                        {key} Progress
+                                        {key} Division Progress
                                     </Card.Header>
                                     <Card.Body className="d-flex justify-content-center">
                                         {/* Using react-chartjs-2 create a donut chart*/}
