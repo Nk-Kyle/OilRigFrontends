@@ -73,6 +73,10 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
             const prefix = division.work_types.find(
                 (work_type) => work_type.name === workTypeName
             ).prefix;
+            const assignment_id =
+                prefix +
+                "-" +
+                parseInt(assignmentId).toString().padStart(4, "0");
             // Send the request to the backend
             fetch(process.env.REACT_APP_BACKEND + "/assignments/", {
                 method: "POST",
@@ -82,7 +86,7 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                 body: JSON.stringify({
                     division: division.name,
                     work_type: workTypeName,
-                    assignment_id: prefix + "-" + assignmentId,
+                    assignment_id: assignment_id,
                     level_id: level.id,
                     level_name: level.name,
                     location_id: location.id,
