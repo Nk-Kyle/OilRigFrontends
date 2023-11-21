@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { NavbarComponent } from "../../components/navbar";
+import { EmployeeCarousel } from "../../components/dashboard/employeeCarousel";
 
 function Dashboard() {
     const [analytics, setAnalytics] = useState({});
@@ -29,6 +30,10 @@ function Dashboard() {
             {/* Controls */}
             <div className="px-5 pt-2">
                 <h1>Dashboard</h1>
+                <hr />
+                {/* Carousel */}
+                <EmployeeCarousel analytics={analytics} />
+
                 <hr />
 
                 <div className="row">

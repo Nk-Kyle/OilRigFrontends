@@ -35,14 +35,14 @@ const getColumns = ({ showQR, handleDelete }) => {
         },
         {
             dataField: "is_logged_in",
-            text: "Logged In",
+            text: "Status",
             sort: true,
             formatter: (cellContent, row) => {
                 if (cellContent) {
                     return (
                         <Badge
                             pill
-                            variant="success"
+                            bg="success"
                             style={{ fontSize: "0.8em", padding: "6px 12px" }}
                         >
                             Logged In
@@ -52,7 +52,7 @@ const getColumns = ({ showQR, handleDelete }) => {
                     return (
                         <Badge
                             pill
-                            variant="success"
+                            bg="primary"
                             style={{ fontSize: "0.8em", padding: "6px 12px" }}
                         >
                             Logged Out

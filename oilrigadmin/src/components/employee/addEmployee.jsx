@@ -49,7 +49,7 @@ export const AddEmployeeOffCanvas = ({ show, handleClose }) => {
         if (isValid) {
             const fileId = extractFileId(url);
             setEmployeePic(
-                "https://docs.google.com/uc?export=download&id=" + fileId
+                "https://docs.google.com/uc?export=view&id=" + fileId
             );
         } else {
             setEmployeePic("");
