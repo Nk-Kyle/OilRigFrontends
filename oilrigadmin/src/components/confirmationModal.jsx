@@ -8,13 +8,17 @@ export const ConfirmationModal = ({
     handleConfirm,
     title,
     body,
+    details,
 }) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{body}</Modal.Body>
+            <Modal.Body>
+                {body}
+                {details}
+            </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close

@@ -3,6 +3,8 @@ import { Offcanvas, Button, Form } from "react-bootstrap";
 import setting from "../../data/setting";
 
 export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
+    const [assignmentId, setAssignmentId] = useState(0);
+    const [priority, setPriority] = useState(100);
     const [levels, setLevels] = useState([]);
     const [level, setLevel] = useState(null); // {id: 1, name: "Level 1", locations: [{id: 1, name: "Location 1"}, {id: 2, name: "Location 2"}]}
     const [locations, setLocations] = useState([]);
@@ -68,6 +70,9 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
             }
 
             setValid(true);
+            const prefix = division.work_types.find(
+                (work_type) => work_type.name === workTypeName
+            ).prefix;
             // Send the request to the backend
             fetch(process.env.REACT_APP_BACKEND + "/assignments/", {
                 method: "POST",
@@ -77,15 +82,14 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                 body: JSON.stringify({
                     division: division.name,
                     work_type: workTypeName,
-                    prefix: division.work_types.find(
-                        (work_type) => work_type.name === workTypeName
-                    ).prefix,
+                    assignment_id: prefix + "-" + assignmentId,
                     level_id: level.id,
                     level_name: level.name,
                     location_id: location.id,
                     location_name: location.name,
                     pdf_link: fileLink,
                     creator: "admin",
+                    priority: priority,
                     description: description,
                 }),
             }).then((res) => {
@@ -99,12 +103,19 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                     setFileLink("");
                     setDescription("");
                     setValidLink(false);
+                    setAssignmentId(0);
+                    setPriority(100);
+                    setValid(true);
                     // Close the offcanvas
                     fetchLevels();
                     handleClose();
                 } else {
                     // Show an error message
-                    setError("Error adding assignment");
+                    if (res.status === 409) {
+                        setError("Assignment already exists");
+                    } else {
+                        setError("Error adding assignment");
+                    }
                     setValid(false);
                 }
             });
@@ -137,6 +148,16 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                     <Offcanvas.Title>Add Assignment</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
+                    <Form.Text className="text-muted">Assignment ID</Form.Text>
+                    <Form.Control
+                        required
+                        value={assignmentId}
+                        placeholder="Assignment ID"
+                        type="number"
+                        onChange={(e) => {
+                            setAssignmentId(e.target.value);
+                        }}
+                    ></Form.Control>
                     <Form.Text className="text-muted">Level</Form.Text>
                     <Form.Select
                         required
@@ -238,7 +259,7 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                                     key={work_type.name}
                                     value={work_type.name}
                                 >
-                                    {work_type.name}
+                                    {work_type.name} ({work_type.prefix})
                                 </option>
                             ))
                         ) : (
@@ -273,6 +294,17 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                             </div>
                         </div>
                     )}
+
+                    <Form.Text className="text-muted">Priority</Form.Text>
+                    <Form.Control
+                        required
+                        value={priority}
+                        placeholder="Priority"
+                        type="number"
+                        onChange={(e) => {
+                            setPriority(e.target.value);
+                        }}
+                    ></Form.Control>
 
                     <Form.Text className="text-muted">Description</Form.Text>
                     <Form.Control

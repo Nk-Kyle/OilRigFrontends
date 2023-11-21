@@ -64,7 +64,7 @@ const getColumns = ({ showQR, handleDelete }) => {
         },
         {
             dataField: "df1",
-            text: "Action",
+            text: "Actions",
             sort: false,
             formatter: (cell, row) => {
                 return (

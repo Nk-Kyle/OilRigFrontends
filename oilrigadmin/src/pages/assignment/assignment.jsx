@@ -45,7 +45,10 @@ function AssignmentPage() {
                         </Button>
                     </Col>
                 </Row>
-                <AssignmentTable assignments={assignments} />
+                <AssignmentTable
+                    assignments={assignments}
+                    fetchAssignments={fetchAssignments}
+                />
             </div>
             {/* Table */}
             <AddAssignmentOffCanvas
