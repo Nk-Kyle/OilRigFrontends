@@ -117,6 +117,7 @@ def detect():
 # To display the Output Video on Webcam page
 @app.route('/webapp')
 def webapp():
+    print("webapp")
     return Response(myobjectdetector.generate_object_detection_frame(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Handle detection data from the webcam

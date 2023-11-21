@@ -51,7 +51,7 @@ class ObjectDetector:
         classNames = ["ear-muff","helm", "mask", "safety-glasses","safety-shoes", "vest"]
         classColor = [(0, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 0, 255)]
 
-
+        i = 0
         while True:
             success, img = cap.read()
             results = model(img, stream=True)
@@ -95,21 +95,24 @@ class ObjectDetector:
                     cv2.putText(img, objetName, org, font, fontScale, objectColor, thickness)
 
            
-            if(detectedClasses == 0b101111):
+            if(detectedClasses == 0b000100):
                 requests.post(fe_url, headers={'Authorization': self.api_key}, data={"all_objects_detected": True})
                 cap.release()
                 cv2.destroyAllWindows()
-                return img
 
             yield img
 
-        
+
 
     def generate_object_detection_frame(self,path_x):
+        j = 0
         yolo_output = self.detect_object(path_x)
         for detection_ in yolo_output:
-            ref,buffer=cv2.imencode('.jpg',detection_)
+            try:
+                ref,buffer=cv2.imencode('.jpg',detection_)
 
-            frame=buffer.tobytes()
-            yield (b'--frame\r\n'
-                        b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
+                frame=buffer.tobytes()
+                yield (b'--frame\r\n'
+                            b'Content-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
+            except:
+                break
