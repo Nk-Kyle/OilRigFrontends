@@ -34,6 +34,36 @@ const templateData = {
 const options = {
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    let index = context.dataIndex;
+                    let dataset = context.dataset;
+                    let currentValue = dataset.data[index];
+                    return currentValue + "%";
+                },
+            },
+        },
+    },
+};
+
+const textCenterPlugin = {
+    id: "textCenter",
+    beforeDatasetDraw: (chart, args, pluginOptions) => {
+        const { ctx, data } = chart;
+
+        ctx.save();
+        ctx.font = "bolder 1em Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(
+            data.datasets[0].data[0] + "%",
+            chart.getDatasetMeta(0).data[0].x,
+            chart.getDatasetMeta(0).data[0].y
+        );
+    },
 };
 
 function Dashboard() {
@@ -61,9 +91,14 @@ function Dashboard() {
                 const newDataMap = JSON.parse(JSON.stringify(dataMap));
                 Object.keys(newDataMap).forEach((key) => {
                     if (data.data.division_data[key]) {
+                        const completed = Math.round(
+                            (data.data.division_data[key].average_progress *
+                                100) /
+                                100
+                        );
                         newDataMap[key].datasets[0].data = [
-                            data.data.division_data[key].average_progress,
-                            100 - data.data.division_data[key].average_progress,
+                            completed,
+                            100 - completed,
                         ];
                     }
                 });
@@ -102,11 +137,12 @@ function Dashboard() {
                                     <Card.Header className="d-flex justify-content-center">
                                         {key} Division Progress
                                     </Card.Header>
-                                    <Card.Body className="d-flex justify-content-center">
+                                    <Card.Body>
                                         {/* Using react-chartjs-2 create a donut chart*/}
                                         <Doughnut
                                             data={dataMap[key]}
                                             options={options}
+                                            plugins={[textCenterPlugin]}
                                         />
                                     </Card.Body>
                                 </Card>
