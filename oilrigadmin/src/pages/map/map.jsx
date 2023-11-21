@@ -75,7 +75,13 @@ function MapPage() {
                         <Row className="mt-2">
                             {/* Boxed container of accordions */}
                             <Col>
-                                <div className="accordion-container">
+                                <div
+                                    className="accordion-container custom-scrollbar"
+                                    style={{
+                                        overflowY: "scroll",
+                                        height: "78vh",
+                                    }}
+                                >
                                     <LevelAccordion
                                         levels={levels}
                                         search={search}
