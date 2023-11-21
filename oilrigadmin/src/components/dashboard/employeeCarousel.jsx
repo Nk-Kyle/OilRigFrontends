@@ -89,6 +89,7 @@ export const EmployeeCarousel = ({ analytics }) => {
                             </Carousel.Item>
                         );
                     }
+                    return null;
                 })
             ) : (
                 <Carousel.Item className="text-center">

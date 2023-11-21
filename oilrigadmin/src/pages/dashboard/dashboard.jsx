@@ -1,12 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
+import {
+    Chart,
+    ArcElement,
+    CategoryScale,
+    DoughnutController,
+    Tooltip,
+    Legend,
+} from "chart.js";
+
+import { Doughnut } from "react-chartjs-2";
 import { NavbarComponent } from "../../components/navbar";
 import { EmployeeCarousel } from "../../components/dashboard/employeeCarousel";
 
+const templateData = {
+    labels: ["Completed", "Not Completed"],
+    datasets: [
+        {
+            data: [100, 0],
+            backgroundColor: [
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 99, 132, 0.2)",
+            ],
+            borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
+            borderWidth: 1,
+        },
+    ],
+};
+
+// From templateData, change the data to the analytics data
+// Copy and update the data from templateData
+
+const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+};
+
 function Dashboard() {
     const [analytics, setAnalytics] = useState({});
+    const [dataMap, setDataMap] = useState({
+        "Operator Jumbodrill": JSON.parse(JSON.stringify(templateData)),
+        "Operator Cablebolt": JSON.parse(JSON.stringify(templateData)),
+        "Operator LHD": JSON.parse(JSON.stringify(templateData)),
+        "Operator Dump Truck": JSON.parse(JSON.stringify(templateData)),
+        Welder: JSON.parse(JSON.stringify(templateData)),
+        Helper: JSON.parse(JSON.stringify(templateData)),
+    });
+
     useEffect(() => {
-        fetchAnalytics();
+        fetchAnalytics(); // eslint-disable-next-line
     }, []);
 
     const fetchAnalytics = () => {
@@ -18,11 +60,31 @@ function Dashboard() {
             })
             .then((data) => {
                 setAnalytics(data.data);
+
+                const newDataMap = JSON.parse(JSON.stringify(dataMap));
+                Object.keys(newDataMap).forEach((key) => {
+                    if (data.data.work_type_data[key]) {
+                        newDataMap[key].datasets[0].data = [
+                            data.data.work_type_data[key].average_progress,
+                            100 -
+                                data.data.work_type_data[key].average_progress,
+                        ];
+                    }
+                });
+                setDataMap(newDataMap);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
+
+    Chart.register(
+        DoughnutController,
+        ArcElement,
+        CategoryScale,
+        Tooltip,
+        Legend
+    );
 
     return (
         <div>
@@ -31,36 +93,30 @@ function Dashboard() {
             <div className="px-5 pt-2">
                 <h1>Dashboard</h1>
                 <hr />
-                {/* Carousel */}
+
                 <EmployeeCarousel analytics={analytics} />
 
                 <hr />
 
                 <div className="row">
-                    {/* Cards for number of employees */}
-                    <div className="col-md-4">
-                        <Card>
-                            <Card.Header className="d-flex justify-content-center">
-                                Number of Employees in Rigs
-                            </Card.Header>
-                            <Card.Body className="d-flex justify-content-center">
-                                <Card.Title>
-                                    {analytics ? analytics.count_logged_in : 0}
-                                </Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    {/* Cards for number of assignments */}
-                    <div className="col-md-4">
-                        <Card>
-                            <Card.Header className="d-flex justify-content-center">
-                                Number of Assignments
-                            </Card.Header>
-                            <Card.Body className="d-flex justify-content-center">
-                                <Card.Title>5</Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </div>
+                    {Object.keys(dataMap).map((key, index) => {
+                        return (
+                            <div className="col-md-4 mt-4" key={index}>
+                                <Card>
+                                    <Card.Header className="d-flex justify-content-center">
+                                        {key} Progress
+                                    </Card.Header>
+                                    <Card.Body className="d-flex justify-content-center">
+                                        {/* Using react-chartjs-2 create a donut chart*/}
+                                        <Doughnut
+                                            data={dataMap[key]}
+                                            options={options}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
