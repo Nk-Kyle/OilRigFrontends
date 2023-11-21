@@ -28,7 +28,7 @@ export const NavbarComponent = () => {
                     </Nav.Link>
                 </Nav>
                 <Nav>
-                    <Nav.Link>Admin Account Name</Nav.Link>
+                    <Nav.Link>{localStorage.getItem("username")}</Nav.Link>
                     <Nav.Link onClick={logout}>Logout</Nav.Link>
                 </Nav>
             </Navbar.Collapse>

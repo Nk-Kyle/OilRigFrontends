@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, ListGroup, ProgressBar } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { NavbarComponent } from "../../components/navbar";
 
 function Dashboard() {

@@ -88,7 +88,7 @@ export const AddAssignmentOffCanvas = ({ show, handleClose }) => {
                     location_id: location.id,
                     location_name: location.name,
                     pdf_link: fileLink,
-                    creator: "admin",
+                    creator: localStorage.getItem("username"),
                     priority: priority,
                     description: description,
                 }),

@@ -43,6 +43,7 @@ function LoginPage() {
             .then((responseJson) => {
                 // Store the token in local storage
                 localStorage.setItem("token", responseJson.token);
+                localStorage.setItem("username", responseJson.username);
 
                 // Redirect to the page the user was trying to access
                 if (location.state && location.state.from) {
