@@ -24,7 +24,7 @@
                     //IF logged in user choose login or logged out user choose logout
                     let is_logged_in = data.is_logged_in;
                     let is_page_login = "{{PAGE_TYPE}}" == 'login';
-                    if((is_logged_in && is_page_login) || (is_logged_in && is_page_login)){
+                    if(is_logged_in == is_page_login){
                         let buttonRow = document.getElementById("buttonRow");
                         let newButton = document.createElement("button");
                         newButton.type = "button";

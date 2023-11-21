@@ -55,7 +55,11 @@ class QRScanner:
         if _type:
             self.user_type = _type
         if _is_logged_in is not None:
-            self.is_logged_in = _is_logged_in
+            if(_is_logged_in == "true" or _is_logged_in == "True"):
+                self.is_logged_in = True
+            else:
+                self.is_logged_in = False
+            print(self.is_logged_in)
 
 
     def detect_qr(self, path):

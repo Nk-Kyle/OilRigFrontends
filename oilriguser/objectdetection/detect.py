@@ -97,12 +97,13 @@ class ObjectDetector:
            
             if(detectedClasses == 0b101111):
                 requests.post(fe_url, headers={'Authorization': self.api_key}, data={"all_objects_detected": True})
-                break
+                cap.release()
+                cv2.destroyAllWindows()
+                return img
 
             yield img
 
-        cap.release()
-        cv2.destroyAllWindows()
+        
 
     def generate_object_detection_frame(self,path_x):
         yolo_output = self.detect_object(path_x)
