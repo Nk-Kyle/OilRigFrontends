@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
 import { ConfirmationModal } from "../confirmationModal";
 import "./assignmentTable.css";
 import { getColumns, expandRow } from "../../data/assignmentColumns";
@@ -37,6 +38,7 @@ export const AssignmentTable = ({ assignments, fetchAssignments }) => {
                 expandRow={expandRow}
                 striped
                 hover
+                pagination={paginationFactory()}
                 noDataIndication={() => "No Data Found"}
             />
             <ConfirmationModal
