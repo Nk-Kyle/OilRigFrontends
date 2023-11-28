@@ -9,6 +9,7 @@ class QRScanner:
 
     def __init__(self):
         self.id = None
+        self.password = None
         self.division = None
         self.user_name = None
         self.url = None
@@ -20,6 +21,7 @@ class QRScanner:
     
     def reset_data(self):
         self.id = None
+        self.password = None
         self.user_name = None
         self.user_type = None
         self.division = None
@@ -38,6 +40,7 @@ class QRScanner:
 
     def set_data(self, data):
         _id = data.get("id")
+        _password = data.get("password")
         _division = data.get("division")
         _name = data.get("name")
         _url = data.get("photo_url")
@@ -46,6 +49,8 @@ class QRScanner:
 
         if _id:
             self.id = _id
+        if _password:
+            self.password = _password
         if _division:
             self.division = _division
         if _name:
@@ -85,9 +90,11 @@ class QRScanner:
                         continue
                     #Process User Data
                     user_data = response.get("data")
-                    print(user_data)
+                    
                     # notify html
-
+                    json_data = json.loads(data)
+                    password = json_data.get("password")
+                    user_data["password"] = password
                     requests.post(fe_url, headers={'Authorization': self.api_key}, data=user_data)
                     cv2.destroyAllWindows()
                     cap.release()

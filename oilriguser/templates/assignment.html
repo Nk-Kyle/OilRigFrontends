@@ -26,4 +26,20 @@
     </div>
 </div>
 <script src="../static/js/assignment.js"></script>
+<script>
+    let id = "{{ID}}"
+    let password = "{{PASSWORD}}"
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            if(response.status==200){
+                loadTasks(response.data)
+            }
+        }
+    };
+    xhttp.open("POST", "http://localhost:3000/employees/login", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify({ id: id, password: password}));
+</script>
 {% endblock %}
