@@ -18,7 +18,11 @@ if (isLeafletAvailable) {
 
     var myIcon = L.icon({
         iconUrl: document.getElementById("leaflet-marker-icon").src,
-        shadowSize: [0, 0],
+        iconSize: [25, 41], // size of the icon
+        shadowSize: [41, 41], // size of the shadow
+        iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+        shadowAnchor: [14, 41], // the same for the shadow
+        popupAnchor: [1, -34],
     });
 }
 
@@ -151,7 +155,7 @@ function loadTasks(inputtasks) {
         var myTaskLocation = document.createElement("b");
         myTaskLocation.innerHTML = "Location: ";
         var myTaskLocationSpan = document.createElement("span");
-        myTaskLocationSpan.innerHTML = inputtasks[i].location_name;
+        myTaskLocationSpan.innerHTML = inputtasks[i].location_name + " at " + inputtasks[i].level_name;
 
         //Create Task Description
         var myTaskDescription = document.createElement("b");
@@ -179,7 +183,7 @@ function loadTasks(inputtasks) {
             image: inputtasks[i].img_url,
             level: {
                 lat: inputtasks[i].location.level_lat,
-                lng: inputtasks[i].location.level_lng,  
+                lng: inputtasks[i].location.level_lng,
             },
             crosscut: {
                 lat: inputtasks[i].location.crosscut_lat,
