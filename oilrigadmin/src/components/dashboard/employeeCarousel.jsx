@@ -1,9 +1,27 @@
 import React from "react";
-import { Card, Carousel, ListGroup } from "react-bootstrap";
+import { Card, Carousel, ListGroup, Button } from "react-bootstrap";
 import "./employeeCarousel.css";
 
 const cardPerRow = 6;
 export const EmployeeCarousel = ({ analytics }) => {
+    const handleLogout = (user) => {
+        console.log(user);
+        fetch(process.env.REACT_APP_BACKEND + "/employees/logout/force", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: user.id,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                // window.location.reload();
+            })
+            .catch((err) => console.log(err));
+    };
     return (
         <Carousel variant="dark">
             {/* Display employees as cards in carousel, max 6 in each */}
@@ -20,7 +38,7 @@ export const EmployeeCarousel = ({ analytics }) => {
                                         .map((user, index) => {
                                             return (
                                                 <div
-                                                    className="col-md-2"
+                                                    className="col-md-2 flex-container"
                                                     key={index}
                                                 >
                                                     <Card>
@@ -82,6 +100,18 @@ export const EmployeeCarousel = ({ analytics }) => {
                                                             <div> </div>
                                                         )}
                                                     </Card>
+                                                    <Button
+                                                        variant="outline-danger"
+                                                        className="mt-2"
+                                                        style={{
+                                                            height: "40px",
+                                                        }}
+                                                        onClick={() => {
+                                                            handleLogout(user);
+                                                        }}
+                                                    >
+                                                        Force Logout
+                                                    </Button>
                                                 </div>
                                             );
                                         })}

@@ -52,3 +52,9 @@
         padding-right: 0px;
     }
 }
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
