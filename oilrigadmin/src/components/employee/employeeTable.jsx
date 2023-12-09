@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import "./employeeTable.css";
 import getColumns from "../../data/employeeColumns";
 import { QRModal } from "./qrModal";
+import filterFactory from "react-bootstrap-table2-filter";
 export const EmployeeTable = ({ employees, fetchEmployees }) => {
     const [showQRModal, setShowQRModal] = useState(false);
     const [employee, setEmployee] = useState(null);
@@ -32,6 +32,7 @@ export const EmployeeTable = ({ employees, fetchEmployees }) => {
                 striped
                 hover
                 noDataIndication={() => "No Data Found"}
+                filter={filterFactory()}
             />
             <QRModal
                 show={showQRModal}

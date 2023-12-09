@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.react-bootstrap-table>table>thead>tr>th .sr-only {
+  display: none;
+}
+
+.react-bootstrap-table>table>thead>tr>th .filter-label {
+  display: grid;
+}
+
+.react-bootstrap-table>table>thead>tr>th .number-filter{
+  display: flex;
+  flex-direction: row;
+}
+
+.react-bootstrap-table > table > thead > tr > th .number-filter > :nth-child(1) {
+  flex: 1;
+}
+
+.react-bootstrap-table > table > thead > tr > th .number-filter > :nth-child(2) {
+  flex: 3;
+}

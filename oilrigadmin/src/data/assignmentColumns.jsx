@@ -1,5 +1,11 @@
 import { Badge, Button } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
+import {
+    textFilter,
+    selectFilter,
+    numberFilter,
+} from "react-bootstrap-table2-filter";
+import setting from "./setting";
 
 const headerSortingClasses = (column, sortOrder) => {
     if (sortOrder === "asc") {
@@ -15,42 +21,69 @@ const getColumns = ({ handleDelete }) => {
             text: "Assignment ID",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: textFilter(),
         },
         {
             dataField: "division",
             text: "Division",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    ...setting.division.reduce((acc, cur) => {
+                        acc[cur.name] = cur.name;
+                        return acc;
+                    }, {}),
+                },
+            }),
         },
         {
             dataField: "work_type",
             text: "Work Type",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    ...setting.division.reduce((acc, cur) => {
+                        cur.work_types.forEach((work_type) => {
+                            acc[work_type.name] = work_type.name;
+                        });
+                        return acc;
+                    }, {}),
+                },
+            }),
         },
         {
             dataField: "level_name",
             text: "Level Name",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: textFilter(),
         },
         {
             dataField: "location_name",
             text: "Location Name",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: textFilter(),
         },
         {
             dataField: "progress",
             text: "Progress",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: numberFilter({
+                defaultValue: { number: 0, comparator: ">=" },
+            }),
         },
         {
             dataField: "priority",
             text: "Priority",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: numberFilter({
+                defaultValue: { number: 0, comparator: ">=" },
+            }),
         },
 
         {
@@ -79,6 +112,13 @@ const getColumns = ({ handleDelete }) => {
                 );
             },
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    "TO DO": "TO DO",
+                    "IN PROGRESS": "IN PROGRESS",
+                    DONE: "DONE",
+                },
+            }),
         },
         {
             dataField: "df1",

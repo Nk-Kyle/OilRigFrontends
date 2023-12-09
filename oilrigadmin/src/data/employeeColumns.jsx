@@ -1,4 +1,10 @@
 import { Button, Badge } from "react-bootstrap";
+import {
+    textFilter,
+    selectFilter,
+    numberFilter,
+} from "react-bootstrap-table2-filter";
+import setting from "./setting";
 
 const headerSortingClasses = (column, sortOrder) => {
     if (sortOrder === "asc") {
@@ -14,24 +20,44 @@ const getColumns = ({ showQR, handleDelete }) => {
             text: "Employee ID",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: textFilter(),
         },
         {
             dataField: "name",
             text: "Employee Name",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: textFilter(),
         },
         {
             dataField: "division",
             text: "Division",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    ...setting.division.reduce((acc, cur) => {
+                        acc[cur.name] = cur.name;
+                        return acc;
+                    }, {}),
+                },
+            }),
         },
         {
             dataField: "work_type",
             text: "Work Type",
             sort: true,
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    ...setting.division.reduce((acc, cur) => {
+                        cur.work_types.forEach((work_type) => {
+                            acc[work_type.name] = work_type.name;
+                        });
+                        return acc;
+                    }, {}),
+                },
+            }),
         },
         {
             dataField: "is_logged_in",
@@ -61,6 +87,12 @@ const getColumns = ({ showQR, handleDelete }) => {
                 }
             },
             headerSortingClasses: headerSortingClasses,
+            filter: selectFilter({
+                options: {
+                    true: "Logged In",
+                    false: "Logged Out",
+                },
+            }),
         },
         {
             dataField: "df1",
