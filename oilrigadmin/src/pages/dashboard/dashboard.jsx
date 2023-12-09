@@ -225,7 +225,10 @@ function Dashboard() {
                 <h1>Dashboard</h1>
                 <hr />
 
-                <EmployeeCarousel analytics={analytics} />
+                <EmployeeCarousel
+                    analytics={analytics}
+                    fetchAnalytics={fetchAnalytics}
+                />
 
                 <hr />
 

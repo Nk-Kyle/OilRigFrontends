@@ -4,7 +4,7 @@ import "./employeeCarousel.css";
 import { ConfirmationModal } from "../confirmationModal";
 
 const cardPerRow = 6;
-export const EmployeeCarousel = ({ analytics }) => {
+export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
     const [showConfirm, setShowConfirm] = useState(false);
     const handleLogout = (user) => {
         console.log(user);
@@ -18,9 +18,8 @@ export const EmployeeCarousel = ({ analytics }) => {
             }),
         })
             .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                // window.location.reload();
+            .then(() => {
+                fetchAnalytics();
             })
             .catch((err) => console.log(err));
     };
