@@ -35,6 +35,16 @@
             let response = JSON.parse(this.responseText);
             if(response.status==200){
                 loadTasks(response.data)
+                let pdf_links = []
+                for(let i=0;i<response.data.length;i++){
+                    pdf_links.push(response.data[i].pdf_link)
+                }
+                //Send pdf_links to backend to print pdf
+                const xhttp2 = new XMLHttpRequest();
+                xhttp2.open("POST", "http://localhost:5000/printpdf", true);
+                xhttp2.setRequestHeader("Content-type", "application/json");
+                xhttp2.setRequestHeader("Authorization", "Bearer " + "{{API_KEY}}");
+                xhttp2.send(JSON.stringify({ pdf_links: pdf_links}));
             }
         }
     };
