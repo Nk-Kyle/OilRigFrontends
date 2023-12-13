@@ -86,7 +86,7 @@
             }
         }
     };
-    xhttp.open("POST", "http://localhost:3000/employees/info", true);
+    xhttp.open("POST", "https://oil-rig-api.vercel.app/employees/info", true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify({ id: id}));
 </script>
