@@ -155,7 +155,8 @@ function loadTasks(inputtasks) {
         var myTaskLocation = document.createElement("b");
         myTaskLocation.innerHTML = "Location: ";
         var myTaskLocationSpan = document.createElement("span");
-        myTaskLocationSpan.innerHTML = inputtasks[i].location_name + " at " + inputtasks[i].level_name;
+        myTaskLocationSpan.innerHTML =
+            inputtasks[i].location_name + " at " + inputtasks[i].level_name;
 
         //Create Task Description
         var myTaskDescription = document.createElement("b");
@@ -307,7 +308,11 @@ function logoutHandler() {
                 console.log(response);
             }
         };
-        xhttp.open("POST", "http://localhost:3000/employees/logout", true);
+        xhttp.open(
+            "POST",
+            "https://oil-rig-api.vercel.app/employees/logout",
+            true
+        );
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(
             JSON.stringify({
