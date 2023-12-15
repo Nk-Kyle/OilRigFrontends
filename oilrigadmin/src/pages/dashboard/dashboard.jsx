@@ -29,7 +29,7 @@ const templateDonutData = {
     labels: ["Completed", "Not Completed"],
     datasets: [
         {
-            data: [100, 0],
+            data: [0, 100],
             backgroundColor: [
                 "rgba(54, 162, 235, 0.2)",
                 "rgba(255, 99, 132, 0.2)",
@@ -45,12 +45,12 @@ const templateBarData = {
     datasets: [
         {
             label: "Active",
-            data: [65],
+            data: [0],
             backgroundColor: "rgba(75,192,192,0.4)",
         },
         {
             label: "Inactive",
-            data: [28],
+            data: [10],
             backgroundColor: "rgba(255,99,132,0.4)",
         },
     ],
