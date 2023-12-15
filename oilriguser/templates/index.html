@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/index.css" />
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="text-center">
+        <h1>Welcome to OilRig</h1>
+        <h1>Please Select Any Button to Continue</h1>
+    </div>
+    <div class="upper-content">
+        <a href="/logoutpage">
+            <button type="button" class="btn btn-danger">Logout Page</button>
+        </a>
+        <a href="/loginpage">
+            <button type="button" class="btn btn-success">Login Page</button>
+        </a>
+    </div>
+    <div class="lower-content">
+        <a href="https://oil-rig-admin.vercel.app/login" target="_blank">
+            <button type="button" class="btn btn-primary">Admin Page</button>
+        </a>
+    </div>
+</div>
+{% endblock %}

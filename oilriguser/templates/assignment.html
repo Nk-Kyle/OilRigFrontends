@@ -1,0 +1,29 @@
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/leaflet.css" />
+<link rel="stylesheet" href="../static/css/assignment.css" />
+<script src="../static/js/leaflet.js"></script>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="left-content">
+        <h1 class="text-center">Tasks</h1>
+        <div id="tasks-container" class="tasks-container">
+        </div>
+        <img
+            id="leaflet-marker-icon"
+            src="../static/images/marker-icon.png"
+            alt=""
+            hidden
+        />
+    </div>
+    <div class="right-content">
+        <div id="map"></div>
+        <img
+            id="overlay"
+            src="../static/images/crossection.jpg"
+            alt=""
+            onclick="changeImage()"
+        />
+    </div>
+</div>
+<script src="../static/js/assignment.js"></script>
+{% endblock %}

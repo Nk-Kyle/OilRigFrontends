@@ -1,0 +1,49 @@
+.content{
+    display: flex;
+    flex-direction: column;
+
+    height: 95vh;
+    gap: 5vh;
+
+    justify-content: center;
+    align-items: center;
+
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+
+    color: white;
+}
+
+.content a{
+    width: 20vw;
+    border: 5px solid white;
+    border-radius: 1vw;
+}
+
+.content a button{
+    width: 100%;
+    height: 100%;
+    font-size: xx-large;
+    border-radius: 1vw;
+}
+
+.upper-content{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    gap: 5vw;
+
+    width: 100%;
+    height: 20%;
+}
+
+.lower-content{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+
+    width: 100%;
+    height: 20%;
+}

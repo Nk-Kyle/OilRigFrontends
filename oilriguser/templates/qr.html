@@ -1,0 +1,157 @@
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/qr.css" />
+<script>
+    //Check if QR code is detected
+    function checkqrdata() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.status == 200 && this.readyState == 4) {
+                data = JSON.parse(this.responseText);
+                if (data.username != null && data.usertype != null) {
+                    document.getElementById("disabledIdInput").value =
+                        data.id;
+                    document.getElementById("disabledDivisionInput").value =
+                        data.division;
+                    document.getElementById("disabledNameInput").value =
+                        data.username;
+                    document.getElementById("disabledTypeInput").value =
+                        data.usertype;
+                    
+                    //Enable buttons
+                    let pageTypeButton = document.getElementById("pageTypeButton");
+                    pageTypeButton.disabled = false;
+                        
+                    //IF logged in user choose login or logged out user choose logout
+                    let is_logged_in = data.is_logged_in;
+                    let is_page_login = "{{PAGE_TYPE}}" == 'login';
+                    if(is_logged_in == is_page_login){
+                        let buttonRow = document.getElementById("buttonRow");
+                        let newButton = document.createElement("button");
+                        newButton.type = "button";
+                        newButton.className = "btn btn-primary btn-lg";
+                        newButton.disabled = true;
+                        let strikethrough = document.createElement("s");
+                        if("{{PAGE_TYPE}}" == 'login'){
+                            pageTypeButton.innerHTML = "logout"
+                            strikethrough.innerHTML = "login"
+                            document.getElementById("pageTypeRef").href = "/logout";
+                        }else{
+                            pageTypeButton.innerHTML = "login"
+                            strikethrough.innerHTML = "logout"
+                            document.getElementById("pageTypeRef").href = "/login";
+                        }
+                        newButton.appendChild(strikethrough);
+                        buttonRow.appendChild(newButton);
+                    }
+                        
+
+                    //Change color
+                    document.getElementById("webcam-container").style.border =
+                        "5px solid green";
+
+                    //Hide jumbotron Change with profile picture
+                    document.getElementById("profilePicture").src = data.photo_url;
+                    document.getElementById("profilePicture").hidden = false;
+                    document.getElementById("jumbotron").hidden = true;
+
+                    //Stop checking for QR code
+                    clearInterval(myInterval);
+                }
+            }
+        };
+        xhttp.open("GET", "/qrdata", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + "{{API_KEY}}");
+        xhttp.send();
+    }
+    const myInterval = setInterval(checkqrdata, 1000);
+</script>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="left-container">
+        <div>
+            <h1 class="text-center">
+                Welcome to OilRig<br />Please scan your QR code
+            </h1>
+        </div>
+        <div id="webcam-container" class="webcam-container">
+            <img src="{{ url_for('qrscanner') }}" alt="Webcam" />
+        </div>
+    </div>
+    <div class="right-container">
+        <form>
+            <fieldset>
+                <legend
+                    id="jumbotron"
+                    class="jumbotron text-center alert-danger"
+                >
+                    No User Detected
+                </legend>
+                <img id="profilePicture" src="" alt="" hidden>
+                <div class="mb-3">
+                    <label for="disabledIdInput" class="form-label">ID</label>
+                    <input
+                        type="text"
+                        id="disabledIdInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="disabledDivisionInput" class="form-label"
+                        >Divisi</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledDivisionInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="disabledNameInput" class="form-label"
+                        >Name</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledNameInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <div class="mb-5">
+                    <label for="disabledTypeInput" class="form-label"
+                        >Type</label
+                    >
+                    <input
+                        type="text"
+                        id="disabledTypeInput"
+                        class="form-control"
+                        disabled
+                    />
+                </div>
+                <div id="buttonRow">
+                    <a href="/">
+                        <button
+                            type="button"
+                            id="returnButton"
+                            class="btn btn-danger btn-lg"
+                        >
+                            Return
+                        </button>
+                    </a>
+                    <a id="pageTypeRef" href="/{{PAGE_TYPE}}">
+                        <button
+                            type="button"
+                            id="pageTypeButton"
+                            class="btn btn-primary btn-lg"
+                            disabled
+                        >
+                            {{PAGE_TYPE}}
+                        </button>
+                    </a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

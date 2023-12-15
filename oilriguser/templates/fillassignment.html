@@ -1,0 +1,76 @@
+{% extends "layout.html" %} {% block stylesheet %} {{ super() }}
+<link rel="stylesheet" href="../static/css/assignment.css" />
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="left-content">
+        <h1 class="text-center">Tasks</h1>
+        <div id="tasks-container" class="tasks-container"></div>
+    </div>
+    <div class="right-content-no-leaflet">
+        <form>
+            <div class="form-container">
+                <div class="form-container-left">
+                    <div class="mb-3">
+                        <label for="taskId" class="form-label">Task ID</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="taskId"
+                            disabled
+                        />
+                    </div>
+                    <div class="mb-4">
+                        <label for="location" class="form-label"
+                            >Location</label
+                        >
+                        <input class="form-control" id="location" disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label"
+                            >Description</label
+                        >
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            rows="10"
+                            disabled
+                        ></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="progress" class="form-label">Progess</label>
+                        <input
+                            class="form-control"
+                            type="number"
+                            min="0"
+                            max="100"
+                            id="progress"
+                            placeholder="Input Your Progress Here 0-100"
+                            onchange="fillTask()"
+                        />
+                    </div>
+                </div>
+                <div class="form-container-right">
+                    <div class="mb-3">
+                        <img id="locationImage" src="" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea
+                    class="form-control"
+                    id="notes"
+                    rows="5"
+                    placeholder="Input Your Notes Here"
+                ></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="nextTask()">
+                Next Task
+            </button>
+        </form>
+    </div>
+</div>
+<script src="../static/js/assignment.js"></script>
+{% endblock %}

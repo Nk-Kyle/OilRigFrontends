@@ -1,0 +1,113 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    height: 95vh;
+
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.left-content {
+    width: 30vw;
+    height: 100%;
+    border-right: 5px solid black;
+}
+
+.tasks-container{
+    padding-left: 1vw;
+    width: 100%;
+}
+
+.task-container{
+    width: 26vw;
+    height: 25vh;
+    border: 1px solid black;
+    margin: 0.5vh 0 0.5vh 0.5vw;
+
+    padding-left: 0.5vw;
+    overflow-y: scroll;
+}
+
+.radio-button-2x-label{
+    font-size: xx-large;
+}
+
+input[type='radio'] { 
+    /* transform: scale(2);  */
+    height: 100%;
+    justify-self: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.right-content {
+    position: relative;
+
+    width: 70vw;
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#overlay {
+    position: absolute;
+
+    right: 1vw;
+    bottom: 1vh;
+
+    width: 15%;
+    height: 15%;
+
+    border: 3px solid red;
+
+    object-fit: scale-down;
+    background-color: lightgrey;
+}
+
+#overlay:hover {
+    cursor: pointer;
+}
+
+.right-content-no-leaflet{
+    display: flex;
+    flex-direction: column;
+
+    width: 70vw;
+    height: 100%;
+
+    padding: 2vh 2vw 2vh 2vw;
+    justify-content: center;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1vw;
+    width: 100%;
+}
+
+.form-container-left{
+    width: 50%;
+}
+
+.form-container-right{
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    width: 50%;
+    padding-top: 3vh;
+}
+
+#locationImage{
+    width: 100%;
+    height: 100%;
+
+    border: 1px solid black;
+
+    object-fit: scale-down;
+}
