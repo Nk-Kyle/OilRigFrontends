@@ -21,6 +21,7 @@ import flask_login
 # Video Detection is the Function which performs Object Detection on Input Video
 from objectdetection.detect import ObjectDetector
 from qrscanner.qrscanner import QRScanner
+from printer.print import print_pdf
 
 app = Flask(__name__)
 # TODO: Change the secret key with environment variable
@@ -133,27 +134,35 @@ def detectdata():
         return myobjectdetector.get_data()
 
 # Assignments Page
-
-
 @app.route('/assignment', methods=['GET'])
-@flask_login.login_required
+# @flask_login.login_required
 def assignment():
     # TODO: Uncomment the following code to enable assignment page
     # if(myobjectdetector.get_data() == True):
     #     return render_template('assignment.html')
     # else:
     #     return redirect(url_for('detect'))
-    return render_template('assignment.html')
+    return render_template('assignment.html',ID=myqrscanner.id, PASSWORD=myqrscanner.password, API_KEY=os.environ.get('API_KEY'))
 
 # Fill Assignment Page
 @app.route('/fillassignment', methods=['GET'])
-@flask_login.login_required
+# @flask_login.login_required
 def fillassignment():
-    if(myqrscanner.is_logged_in):
-        return render_template('fillassignment.html')
-    else:
-        return redirect(url_for('loginpage'))
+    return render_template('fillassignment.html', ID=myqrscanner.id, PASSWORD=myqrscanner.password)
+    # if(myqrscanner.is_logged_in):
+    # else:
+    #     return redirect(url_for('loginpage'))
 
+# Print
+@app.route('/printpdf', methods=['POST'])
+def printpdf():
+    if(str(request.authorization) != request_authorization):
+        return jsonify({"status": "unauthorized"})
+    else:
+        # get pdf links from request body
+        pdf_links = request.get_json().get("pdf_links")
+        print_pdf(pdf_links)
+        return jsonify({"status": "success"})
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -19,11 +19,37 @@
         <div id="map"></div>
         <img
             id="overlay"
-            src="../static/images/crossection.jpg"
+            src="../static/images/crosssection.jpeg"
             alt=""
             onclick="changeImage()"
         />
     </div>
 </div>
 <script src="../static/js/assignment.js"></script>
+<script>
+    let id = "{{ID}}"
+    let password = "{{PASSWORD}}"
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            if(response.status==200){
+                loadTasks(response.data)
+                let pdf_links = []
+                for(let i=0;i<response.data.length;i++){
+                    pdf_links.push(response.data[i].pdf_link)
+                }
+                //Send pdf_links to backend to print pdf
+                const xhttp2 = new XMLHttpRequest();
+                xhttp2.open("POST", "http://localhost:5000/printpdf", true);
+                xhttp2.setRequestHeader("Content-type", "application/json");
+                xhttp2.setRequestHeader("Authorization", "Bearer " + "{{API_KEY}}");
+                xhttp2.send(JSON.stringify({ pdf_links: pdf_links}));
+            }
+        }
+    };
+    xhttp.open("POST", "https://oil-rig-api.vercel.app/employees/login", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify({ id: id, password: password}));
+</script>
 {% endblock %}

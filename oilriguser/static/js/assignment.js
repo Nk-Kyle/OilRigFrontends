@@ -18,7 +18,11 @@ if (isLeafletAvailable) {
 
     var myIcon = L.icon({
         iconUrl: document.getElementById("leaflet-marker-icon").src,
-        shadowSize: [0, 0],
+        iconSize: [25, 41], // size of the icon
+        shadowSize: [41, 41], // size of the shadow
+        iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+        shadowAnchor: [14, 41], // the same for the shadow
+        popupAnchor: [1, -34],
     });
 }
 
@@ -89,54 +93,6 @@ const temppoint = {
     name: "Test @2",
 };
 
-var temptask = {
-    data: [
-        {
-            creator: "admin",
-            description: "Test",
-            division: "Development",
-            id: "JB4",
-            level_id: "654bacafc5c9a371ec3613d2",
-            level_name: "A1",
-            location_id: "c3464eb1c15f41d587e88a1dd6269cd5",
-            location_name: "Test @2",
-            pdf_link:
-                "https://drive.google.com/file/d/1Ei0S3sfTrMMVc2zG-1QH2iaGAUj6s_OV/view?usp=drive_link",
-            status: "TO DO",
-            work_type: "Operator Jumbodrill",
-        },
-        {
-            creator: "admin",
-            description: "Test 2",
-            division: "Development",
-            id: "JB5",
-            level_id: "654bacafc5c9a371ec3613d2",
-            level_name: "A1",
-            location_id: "c3464eb1c15f41d587e88a1dd6269cd5",
-            location_name: "Test @2",
-            pdf_link:
-                "https://drive.google.com/file/d/1Ei0S3sfTrMMVc2zG-1QH2iaGAUj6s_OV/view?usp=drive_link",
-            status: "TO DO",
-            work_type: "Operator Jumbodrill",
-        },
-        {
-            creator: "admin",
-            description: "Test 2",
-            division: "Development",
-            id: "JB6",
-            level_id: "654bacafc5c9a371ec3613d2",
-            level_name: "A1",
-            location_id: "c3464eb1c15f41d587e88a1dd6269cd5",
-            location_name: "Test @2",
-            pdf_link:
-                "https://drive.google.com/file/d/1Ei0S3sfTrMMVc2zG-1QH2iaGAUj6s_OV/view?usp=drive_link",
-            status: "TO DO",
-            work_type: "Operator Jumbodrill",
-        },
-    ],
-    status: 200,
-};
-
 //Other Functions
 function changeImage() {
     if (!isLeafletAvailable) {
@@ -199,7 +155,7 @@ function loadTasks(inputtasks) {
         var myTaskLocation = document.createElement("b");
         myTaskLocation.innerHTML = "Location: ";
         var myTaskLocationSpan = document.createElement("span");
-        myTaskLocationSpan.innerHTML = inputtasks[i].location_name;
+        myTaskLocationSpan.innerHTML = inputtasks[i].location_name + " at " + inputtasks[i].level_name;
 
         //Create Task Description
         var myTaskDescription = document.createElement("b");
@@ -220,19 +176,18 @@ function loadTasks(inputtasks) {
         document.getElementById("tasks-container").appendChild(myFormCheck);
 
         //Put in array
-        //TODO: get data correctly
         tasks.push({
             id: inputtasks[i].id,
             location_name: inputtasks[i].location_name,
             description: inputtasks[i].description,
-            image: templevelurl[i],
+            image: inputtasks[i].img_url,
             level: {
-                lat: temppoint.crosscut_lat,
-                lng: temppoint.crosscut_lng,
+                lat: inputtasks[i].location.level_lat,
+                lng: inputtasks[i].location.level_lng,
             },
             crosscut: {
-                lat: temppoint.level_lat,
-                lng: temppoint.level_lng,
+                lat: inputtasks[i].location.crosscut_lat,
+                lng: inputtasks[i].location.crosscut_lng,
             },
         });
     }
@@ -272,28 +227,21 @@ function changeLevel(levelNumber) {
     currentLevel = levelNumber;
 
     if (!isLeafletAvailable) {
-        //Save Progress and Notes
-        let myProgress = document.getElementById("progress").value;
-        let myNotes = document.getElementById("notes").value;
-        if(myProgress != ""){
-            tasks[previousLevel].progress = myProgress;
-        }
-        if(myNotes != ""){
-            tasks[previousLevel].notes = myNotes;
-        }
-
         document.getElementById("taskId").value = tasks[levelNumber].id;
-        document.getElementById("location").value = tasks[levelNumber].location_name;
+        document.getElementById("location").value =
+            tasks[levelNumber].location_name;
         document.getElementById("locationImage").src = tasks[levelNumber].image;
-        document.getElementById("description").value = tasks[levelNumber].description;
-        if(tasks[levelNumber].progress != undefined){
-            document.getElementById("progress").value = tasks[levelNumber].progress;
-        }else{
+        document.getElementById("description").value =
+            tasks[levelNumber].description;
+        if (tasks[levelNumber].progress != undefined) {
+            document.getElementById("progress").value =
+                tasks[levelNumber].progress;
+        } else {
             document.getElementById("progress").value = "";
         }
-        if(tasks[levelNumber].notes != undefined){
+        if (tasks[levelNumber].notes != undefined) {
             document.getElementById("notes").value = tasks[levelNumber].notes;
-        }else{
+        } else {
             document.getElementById("notes").value = "";
         }
     } else {
@@ -309,26 +257,64 @@ function changeLevel(levelNumber) {
     previousLevel = levelNumber;
 }
 
-function test(){
+function test() {
     console.log("test");
 }
 
-function fillTask(){
+function fillTask() {
     taskFilled[previousLevel] = true;
-    document.getElementById("task-container" + previousLevel).style.border = "3px solid green";
+    document.getElementById("task-container" + previousLevel).style.border =
+        "3px solid green";
+    //Save Progress and Notes
+    let myProgress = document.getElementById("progress").value;
+    let myNotes = document.getElementById("notes").value;
+    if (myProgress != "") {
+        tasks[previousLevel].progress = myProgress;
+    }
+    if (myNotes != "") {
+        tasks[previousLevel].notes = myNotes;
+    }
 
-    if(taskFilled[0] && taskFilled[1] && taskFilled[2]){
+    if (taskFilled[0] && taskFilled[1] && taskFilled[2]) {
         document.getElementById("task-button").innerHTML = "Logout";
         document.getElementById("task-button").disabled = false;
+        document.getElementById("task-button").onclick = logoutHandler;
     }
 }
 
-function nextTask(){
-    changeLevel((currentLevel + 1)%tasks.length);
+function nextTask() {
+    changeLevel((currentLevel + 1) % tasks.length);
     //Change Radio Button
     document.getElementById("flexRadioDefault" + currentLevel).checked = true;
 }
 
-//Execute
-//TODO: Get tasks from backend
-loadTasks(temptask.data);
+function logoutHandler() {
+    if (taskFilled[0] && taskFilled[1] && taskFilled[2]) {
+        let assignment_statuses = [];
+        for (let i = 0; i < tasks.length; i++) {
+            assignment_statuses.push({
+                id: tasks[i].id,
+                progress: tasks[i].progress,
+                remarks: tasks[i].notes || "",
+                is_completed: tasks[i].progress == 100 ? true : false,
+            });
+        }
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+            }
+        };
+        xhttp.open("POST", "http://localhost:3000/employees/logout", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(
+            JSON.stringify({
+                id: id,
+                password: password,
+                assignment_statuses: assignment_statuses,
+            })
+        );
+    }
+}
