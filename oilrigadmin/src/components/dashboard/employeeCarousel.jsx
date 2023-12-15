@@ -6,8 +6,9 @@ import { ConfirmationModal } from "../confirmationModal";
 const cardPerRow = 6;
 export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
     const [showConfirm, setShowConfirm] = useState(false);
-    const handleLogout = (user) => {
-        console.log(user);
+    const [selectedUser, setUser] = useState(null);
+    const handleLogout = () => {
+        const user = selectedUser;
         fetch(process.env.REACT_APP_BACKEND + "/employees/logout/force", {
             method: "POST",
             headers: {
@@ -20,6 +21,7 @@ export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
             .then((res) => res.json())
             .then(() => {
                 fetchAnalytics();
+                setShowConfirm(false);
             })
             .catch((err) => console.log(err));
     };
@@ -116,6 +118,7 @@ export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
                                                                 setShowConfirm(
                                                                     true
                                                                 );
+                                                                setUser(user);
                                                             }}
                                                         >
                                                             Force Logout

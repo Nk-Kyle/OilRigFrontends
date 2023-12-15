@@ -1,9 +1,5 @@
 import { Button, Badge } from "react-bootstrap";
-import {
-    textFilter,
-    selectFilter,
-    numberFilter,
-} from "react-bootstrap-table2-filter";
+import { textFilter, selectFilter } from "react-bootstrap-table2-filter";
 import setting from "./setting";
 
 const headerSortingClasses = (column, sortOrder) => {
