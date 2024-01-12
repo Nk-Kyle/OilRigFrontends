@@ -100,7 +100,7 @@ https://oil-rig-admin.vercel.app/
    ```
 3. Buat Venv (Opsional namun reccomended)
    ```sh
-   python -m venv vevn
+   python -m venv venv
    ```
 4. Aktifkan Venv (Jika Venv dibuat pada langkah 3)
    ```sh
@@ -114,9 +114,9 @@ https://oil-rig-admin.vercel.app/
    ```sh
     https://pytorch.org/get-started/locally/
     ```
-7. Tambahkan Buat file .env pada directory yang sama dengan app.py. Isi file tersebut dengan
+7. Jika ingin membuat aplikasi menjadi lebih secure, silahkan ubah API_KEY pada file .env  
    ```sh
-    API_KEY="<SILAHKAN ISI SESUKA HATI>"
+    API_KEY="<SILAHKAN UBAH SESUKA HATI>"
     ```
 8. Jalankan flask
    ```sh
