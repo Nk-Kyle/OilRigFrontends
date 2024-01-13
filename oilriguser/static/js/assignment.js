@@ -195,7 +195,7 @@ function loadTasks(inputtasks) {
 
     //Create Return Button
     let myHRef = document.createElement("a");
-    myHRef.href = "/";
+    // myHRef.href = "/";
     let myButton = document.createElement("button");
     myButton.type = "button";
     myButton.id = "task-button";
@@ -300,7 +300,6 @@ function logoutHandler() {
                 is_completed: tasks[i].progress == 100 ? true : false,
             });
         }
-
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function () {
             if (this.readyState == 4 && this.status == 200) {

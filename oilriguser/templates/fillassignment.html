@@ -64,6 +64,7 @@
                     id="notes"
                     rows="5"
                     placeholder="Input Your Notes Here"
+                    onchange="fillTask()"
                 ></textarea>
             </div>
             <button type="button" class="btn btn-primary" onclick="nextTask()">
@@ -74,20 +75,20 @@
 </div>
 <script src="../static/js/assignment.js"></script>
 <script>
-    console.log("{{ID}}", "{{PASSWORD}}")
-    var id = "{{ID}}"
-    var password = "{{PASSWORD}}"
+    console.log("{{ID}}", "{{PASSWORD}}");
+    var id = "{{ID}}";
+    var password = "{{PASSWORD}}";
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
         if (this.readyState == 4 && this.status == 200) {
             let response = JSON.parse(this.responseText);
-            if(response.status==200){
-                loadTasks(response.data.task_details)
+            if (response.status == 200) {
+                loadTasks(response.data.task_details);
             }
         }
     };
     xhttp.open("POST", "https://oil-rig-api.vercel.app/employees/info", true);
     xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify({ id: id}));
+    xhttp.send(JSON.stringify({ id: id }));
 </script>
 {% endblock %}
