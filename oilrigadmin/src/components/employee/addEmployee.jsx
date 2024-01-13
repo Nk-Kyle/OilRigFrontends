@@ -48,9 +48,7 @@ export const AddEmployeeOffCanvas = ({ show, handleClose }) => {
         // If the URL is valid, update the image URL
         if (isValid) {
             const fileId = extractFileId(url);
-            setEmployeePic(
-                "https://docs.google.com/uc?export=view&id=" + fileId
-            );
+            setEmployeePic("https://lh3.google.com/u/0/d/" + fileId);
         } else {
             setEmployeePic("");
         }

@@ -97,7 +97,7 @@ export const CrossCutModal = ({
                             <AddMarker />
                             {marker && <Marker position={marker} icon={icon} />}
                             <ImageOverlay
-                                url="https://docs.google.com/uc?export=download&id=1Ok3pbMZhRWth9gaxeh4go8xSDhZF_Srw"
+                                url="https://lh3.google.com/u/0/d/"
                                 bounds={[
                                     [0, 0],
                                     [3308 / 36, 2338 / 9],

@@ -4,6 +4,7 @@ import "./employeeCarousel.css";
 import { ConfirmationModal } from "../confirmationModal";
 
 const cardPerRow = 6;
+
 export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedUser, setUser] = useState(null);

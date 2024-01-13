@@ -24,9 +24,7 @@ export const AddLevelOffCanvas = ({ show, handleClose, fetchLevels }) => {
         // If the URL is valid, update the image URL
         if (isValid) {
             const fileId = extractFileId(url);
-            setImageUrl(
-                "https://docs.google.com/uc?export=download&id=" + fileId
-            );
+            setImageUrl("https://lh3.google.com/u/0/d/" + fileId);
         } else {
             setImageUrl("");
         }
@@ -89,7 +87,7 @@ export const AddLevelOffCanvas = ({ show, handleClose, fetchLevels }) => {
                     <input
                         type="url"
                         className="form-control mt-2"
-                        placeholder="https://example.com/image.png"
+                        placeholder="https://drive.google.com/file/d/1Ok3pbMZhRWth9gaxeh4go8xSDhZF_Srw/view?usp=drive_link"
                         onChange={(e) => updateImageUrl(e.target.value)}
                     />
                     <Button

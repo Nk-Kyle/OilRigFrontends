@@ -40,9 +40,7 @@ export const DeleteLevelOffCanvas = ({
         // If the URL is valid, update the image URL
         if (isValid) {
             const fileId = extractFileId(url);
-            setImageUrl(
-                "https://docs.google.com/uc?export=download&id=" + fileId
-            );
+            setImageUrl("https://lh3.google.com/u/0/d/" + fileId);
         } else {
             setImageUrl("");
         }

@@ -12,17 +12,10 @@ export const LeafletCanvas = ({ activeLevel, fetchLevels }) => {
     const [crosscutShow, setCrosscutShow] = useState(false);
     const [crosscutLatlng, setCrosscutLatlng] = useState({ lat: 0, lng: 0 });
 
-    const [imageBounds, setImageBounds] = useState([
+    const imageBounds = useState([
         [0, 0],
-        [1, 1],
+        [3308 / 36, 2338 / 9],
     ]);
-
-    const handleImageLoad = ({ target: img }) => {
-        setImageBounds([
-            [0, 0],
-            [img.naturalWidth / 36, img.naturalHeight / 9],
-        ]);
-    };
 
     const AddMarker = () => {
         useMapEvents({
@@ -38,7 +31,6 @@ export const LeafletCanvas = ({ activeLevel, fetchLevels }) => {
         <>
             <img
                 src={activeLevel ? activeLevel.img_url : ""}
-                onLoad={handleImageLoad}
                 style={{ display: "none" }}
                 alt=""
             />
