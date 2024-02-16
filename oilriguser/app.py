@@ -91,7 +91,7 @@ def logout():
 # To display the QR Scanner
 @app.route('/qrscanner')
 def qrscanner():
-    return Response(myqrscanner.generate_qr_frames(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(myqrscanner.generate_qr_frames(path_x=1), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Handle QR data Data from the QR Scanner
 @app.route('/qrdata', methods=['POST', 'GET'])
@@ -119,7 +119,7 @@ def detect():
 @app.route('/webapp')
 def webapp():
     print("webapp")
-    return Response(myobjectdetector.generate_object_detection_frame(path_x=0), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(myobjectdetector.generate_object_detection_frame(path_x=1), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Handle detection data from the webcam
 @app.route('/detectdata', methods=['POST', 'GET'])
