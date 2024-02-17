@@ -195,7 +195,7 @@ function loadTasks(inputtasks) {
 
     //Create Return Button
     let myHRef = document.createElement("a");
-    // myHRef.href = "/";
+    myHRef.href = "/";
     let myButton = document.createElement("button");
     myButton.type = "button";
     myButton.id = "task-button";
