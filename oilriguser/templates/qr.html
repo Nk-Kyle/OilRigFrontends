@@ -8,49 +8,51 @@
             if (this.status == 200 && this.readyState == 4) {
                 data = JSON.parse(this.responseText);
                 if (data.username != null && data.usertype != null) {
-                    document.getElementById("disabledIdInput").value =
-                        data.id;
+                    document.getElementById("disabledIdInput").value = data.id;
                     document.getElementById("disabledDivisionInput").value =
                         data.division;
                     document.getElementById("disabledNameInput").value =
                         data.username;
                     document.getElementById("disabledTypeInput").value =
                         data.usertype;
-                    
+
                     //Enable buttons
-                    let pageTypeButton = document.getElementById("pageTypeButton");
+                    let pageTypeButton =
+                        document.getElementById("pageTypeButton");
                     pageTypeButton.disabled = false;
-                        
+
                     //IF logged in user choose login or logged out user choose logout
                     let is_logged_in = data.is_logged_in;
-                    let is_page_login = "{{PAGE_TYPE}}" == 'login';
-                    if(is_logged_in == is_page_login){
+                    let is_page_login = "{{PAGE_TYPE}}" == "login";
+                    if (is_logged_in == is_page_login) {
                         let buttonRow = document.getElementById("buttonRow");
                         let newButton = document.createElement("button");
                         newButton.type = "button";
                         newButton.className = "btn btn-primary btn-lg";
                         newButton.disabled = true;
                         let strikethrough = document.createElement("s");
-                        if("{{PAGE_TYPE}}" == 'login'){
-                            pageTypeButton.innerHTML = "logout"
-                            strikethrough.innerHTML = "login"
-                            document.getElementById("pageTypeRef").href = "/logout";
-                        }else{
-                            pageTypeButton.innerHTML = "login"
-                            strikethrough.innerHTML = "logout"
-                            document.getElementById("pageTypeRef").href = "/login";
+                        if ("{{PAGE_TYPE}}" == "login") {
+                            pageTypeButton.innerHTML = "logout";
+                            strikethrough.innerHTML = "login";
+                            document.getElementById("pageTypeRef").href =
+                                "/logout";
+                        } else {
+                            pageTypeButton.innerHTML = "login";
+                            strikethrough.innerHTML = "logout";
+                            document.getElementById("pageTypeRef").href =
+                                "/login";
                         }
                         newButton.appendChild(strikethrough);
                         buttonRow.appendChild(newButton);
                     }
-                        
 
                     //Change color
                     document.getElementById("webcam-container").style.border =
                         "5px solid green";
 
                     //Hide jumbotron Change with profile picture
-                    document.getElementById("profilePicture").src = data.photo_url;
+                    document.getElementById("profilePicture").src =
+                        data.photo_url;
                     document.getElementById("profilePicture").hidden = false;
                     document.getElementById("jumbotron").hidden = true;
 
@@ -74,7 +76,11 @@
             </h1>
         </div>
         <div id="webcam-container" class="webcam-container">
-            <img src="{{ url_for('qrscanner') }}" alt="Webcam" />
+            <img
+                referrerpolicy="no-referrer"
+                src="{{ url_for('qrscanner') }}"
+                alt="Webcam"
+            />
         </div>
     </div>
     <div class="right-container">
@@ -86,7 +92,13 @@
                 >
                     No User Detected
                 </legend>
-                <img id="profilePicture" src="" alt="" hidden>
+                <img
+                    referrerpolicy="no-referrer"
+                    id="profilePicture"
+                    src=""
+                    alt=""
+                    hidden
+                />
                 <div class="mb-3">
                     <label for="disabledIdInput" class="form-label">ID</label>
                     <input
