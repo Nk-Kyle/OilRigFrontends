@@ -65,6 +65,7 @@ function LoginPage() {
                         src="https://burst.shopifycdn.com/photos/a-bridge-sitting-in-thick-pink-and-purple-fog.jpg?width=1000&format=pjpg&exif=0&iptc=0"
                         className="img-fluid"
                         alt="Oil Rig Admin Logo"
+                        referrerPolicy="no-referrer"
                     />
                 </div>
 

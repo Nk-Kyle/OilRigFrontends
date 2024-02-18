@@ -218,6 +218,7 @@ export const AddEmployeeOffCanvas = ({ show, handleClose }) => {
                                 alt="Preview"
                                 className="preview-image"
                                 style={{ width: "100%" }}
+                                referrerPolicy="no-referrer"
                             />
                         </div>
                     )}

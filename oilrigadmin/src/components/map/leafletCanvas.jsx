@@ -33,6 +33,7 @@ export const LeafletCanvas = ({ activeLevel, fetchLevels }) => {
                 src={activeLevel ? activeLevel.img_url : ""}
                 style={{ display: "none" }}
                 alt=""
+                referrerPolicy="no-referrer"
             />
             <MapContainer
                 center={[70, 120]}

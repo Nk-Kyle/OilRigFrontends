@@ -107,6 +107,7 @@ export const AddLevelOffCanvas = ({ show, handleClose, fetchLevels }) => {
                                 alt="Preview"
                                 className="preview-image"
                                 style={{ width: "100%" }}
+                                referrerPolicy="no-referrer"
                             />
                         </div>
                     )}

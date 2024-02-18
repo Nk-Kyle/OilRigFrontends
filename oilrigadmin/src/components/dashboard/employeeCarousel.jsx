@@ -57,6 +57,7 @@ export const EmployeeCarousel = ({ analytics, fetchAnalytics }) => {
                                                                     objectFit:
                                                                         "cover",
                                                                 }}
+                                                                referrerPolicy="no-referrer"
                                                             />
                                                             <Card.Header className="justify-content-center text-center">
                                                                 <b>
