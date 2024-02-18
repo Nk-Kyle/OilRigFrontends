@@ -12,7 +12,7 @@ export const NavbarComponent = () => {
     return (
         <Navbar bg="dark" variant="dark" expand="lg" className="px-4">
             <Navbar.Brand as={Link} to="/">
-                Oil Rig Admin
+                Underground Mine
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
